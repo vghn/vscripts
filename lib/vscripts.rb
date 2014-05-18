@@ -1,2 +1,7 @@
+# Main VScripts module
 module VScripts
-end
+  # Runs the scripts
+  def self.run
+    puts 'Running'
+  end
+end # module VScripts
