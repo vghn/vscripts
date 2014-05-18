@@ -4,6 +4,8 @@ $LOAD_PATH << File.join(RAKE_ROOT, 'tasks')
 # Load all tasks
 Dir['tasks/**/*.rake'].each { |task| load task }
 
+# Rake
+require 'rake/clean'
 # Bundler
 require "bundler/gem_tasks"
 
