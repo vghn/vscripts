@@ -1,4 +1,6 @@
 # VScripts
+  [![Build Status](https://travis-ci.org/vghn/vscripts.svg?branch=master)](https://travis-ci.org/vghn/vscripts)
+  [![Code Climate](https://codeclimate.com/github/vghn/vscripts.png)](https://codeclimate.com/github/vghn/vscripts)
 
 Automation daemon.
 
