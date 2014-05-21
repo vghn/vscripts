@@ -59,8 +59,7 @@ EOS
       if command_cli && Command.list.include?(command_cls)
         return command_cls
       else
-        puts "Error: Unknown subcommand '#{command_cli}'"
-        puts 'Try --help for help.'
+        puts "Error: Unknown subcommand '#{command_cli}'\nTry --help for help."
         exit 1
       end
     end
