@@ -43,15 +43,10 @@ describe VScripts::AWS::EC2 do
     end
   end
 
-  describe '#all_tags_hash' do
-    it 'returns a Hash' do
-      expect(subject.all_tags_hash).to be_a Hash
-    end
-  end
-
   describe '#tags_without' do
     it 'returns a Hash' do
-      expect(subject.tags_without).to be_a Hash
+      expect(subject.tags_without)
+        .to be_an_instance_of ::AWS::EC2::ResourceTagCollection
     end
   end
 

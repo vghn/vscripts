@@ -29,15 +29,11 @@ module VScripts
         instance.tags
       end
 
-      # @return [Hash] All tags
-      def all_tags_hash
-        all_tags.to_h
-      end
-
       # Get a list of tags
       def tags_without(list = [])
-        list.each { |excluded| all_tags_hash.delete(excluded) }
-        all_tags_hash
+        all = all_tags
+        list.each { |excluded| all.delete(excluded) }
+        all
       end
 
       # Looks for the value of the 'Name' tag for the given instance

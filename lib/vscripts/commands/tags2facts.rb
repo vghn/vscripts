@@ -64,7 +64,7 @@ module VScripts
 
       # @return [Hash] Tags table
       def tags_hash
-        ec2.tags_without(exclude_list)
+        ec2.tags_without(exclude_list).to_h
       end
 
       # @return [JSON] Formatted JSON

@@ -27,7 +27,7 @@ describe VScripts::Commands::Tags2facts do
 
   describe '#tags_json' do
     it 'returns JSON formatted string' do
-      @tags2facts.stub(:tags_hash) {{ key: 'value' }}
+      @tags2facts.stub_chain(:tags_hash, :to_h) {{ key: 'value' }}
       expect(@tags2facts.tags_json).to eq("{\n  \"key\": \"value\"\n}")
     end
   end
