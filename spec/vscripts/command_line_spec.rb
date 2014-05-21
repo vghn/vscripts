@@ -8,27 +8,27 @@ describe VScripts::CommandLine do
 
   describe '#new' do
     it 'returns the command line arguments' do
-      @cli.should be_an_instance_of VScripts::CommandLine
+      expect(@cli).to be_an_instance_of VScripts::CommandLine
     end
   end
 
   describe '#global' do
     it 'returns the global options as a Hash' do
-      @cli.global.should be_an_instance_of Hash
+      expect(@cli.global).to be_an_instance_of Hash
     end
   end
 
   describe '#command' do
     it 'returns the command name' do
-      @cli.command.should be_a String
-      @cli.command.should eql @cmd
+      expect(@cli.command).to be_a String
+      expect(@cli.command).to eql @cmd
     end
   end
 
   describe '#extra' do
     it 'returns the rest of the arguments as an Array' do
-      @cli.extra.should be_an_instance_of Array
-      @cli.extra.should eql ['extra_args']
+      expect(@cli.extra).to be_an_instance_of Array
+      expect(@cli.extra).to eql ['extra_args']
     end
   end
 end

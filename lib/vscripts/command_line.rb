@@ -19,7 +19,9 @@ module VScripts
     end
 
     # Specifies command line options
-    def parser
+    # This method smells of :reek:NestedIterators but ignores them
+    # This method smells of :reek:TooManyStatements but ignores them
+    def parser # rubocop:disable MethodLength
       available = Command.list
       Trollop::Parser.new do
         version VScripts::VERSION_C
@@ -53,10 +55,12 @@ EOS
     # @return [String] Command name
     def check_command(args)
       @command = args.shift
-      if Command.list.include?(@command.to_sym)
+      if @command && Command.list.include?(@command.to_sym)
         return @command
       else
-        fail "Unknown subcommand #{@command.inspect}"
+        puts "Error: Unknown subcommand '#{@command.inspect}'"
+        puts 'Try --help for help.'
+        exit 1
       end
     end
 
