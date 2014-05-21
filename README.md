@@ -10,31 +10,9 @@ Automation daemon.
 
 ## Installing
 
-### Suported distributions:
-  - Ubuntu 14.04 LTS (Trusty Tahr)
+### Gem installation
+`gem install vscripts`
 
-### Ubuntu*
-
-First install out PGP key.
-```
-wget -O - http://apt.vladgh.com/gpg | sudo apt-key add -
-```
-Next, run the following commands to add the repository and update APT (replace
-CODENAME with your distribution):
-```
-echo "deb http://apt.vladgh.com CODENAME main" sudo tee \
-  /etc/apt/sources.list.d/apt.vladgh.com.list
-sudo apt-get update
-```
-Next install the package:
-```
-sudo apt-get install vscripts
-```
-Install ruby gems dependencies:
-```
-cd /opt/vscripts
-bundle install --without=development
-```
 
 ## Usage
 
