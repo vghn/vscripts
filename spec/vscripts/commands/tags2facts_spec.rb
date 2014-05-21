@@ -1,9 +1,9 @@
 require 'vscripts/commands/tags2facts'
 
-describe VScripts::Commands::Tags2Facts do
+describe VScripts::Commands::Tags2facts do
 
   before :each do
-    @tags2facts = VScripts::Commands::Tags2Facts.new(['extra_args'])
+    @tags2facts = VScripts::Commands::Tags2facts.new(['extra_args'])
   end
 
   describe '#new' do

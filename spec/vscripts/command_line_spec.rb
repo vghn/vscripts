@@ -20,8 +20,8 @@ describe VScripts::CommandLine do
 
   describe '#command' do
     it 'returns the command name' do
-      expect(@cli.command).to be_a String
-      expect(@cli.command).to eql @cmd
+      expect(@cli.command).to be_a Symbol
+      expect(@cli.command).to eql @cmd.capitalize.to_sym
     end
   end
 

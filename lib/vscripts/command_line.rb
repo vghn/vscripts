@@ -29,7 +29,7 @@ module VScripts
 VScripts automation daemon.
 
 Available commands:
-  #{available.map { |cmd| cmd.to_s }}
+        #{available.map { |cmd| cmd.to_s.downcase }}
 
 Usage:
   vscripts GLOBAL-OPTIONS COMMAND OPTIONS
@@ -54,11 +54,12 @@ EOS
     # Ensure command is available
     # @return [String] Command name
     def check_command(args)
-      @command = args.shift
-      if @command && Command.list.include?(@command.to_sym)
-        return @command
+      command_cli = args.shift
+      command_cls = command_cli.capitalize.to_sym
+      if command_cli && Command.list.include?(command_cls)
+        return command_cls
       else
-        puts "Error: Unknown subcommand '#{@command.inspect}'"
+        puts "Error: Unknown subcommand '#{command_cli}'"
         puts 'Try --help for help.'
         exit 1
       end

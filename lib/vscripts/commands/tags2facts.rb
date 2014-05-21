@@ -8,7 +8,7 @@ module VScripts
     # @ec2 smells of :reek:UncommunicativeVariableName
 
     # Tags2Facts Class
-    class Tags2Facts
+    class Tags2facts
       include VScripts::Util::LocalSystem
 
       # HELP
@@ -21,10 +21,10 @@ module VScripts
 
   The `Name` and `DOMAIN` tags are excluded by default because this command is
   intended to add Facter facts and these 2 already exist in Facter. This
-  behaviour can be overridden by adding [-a|--all] command line option.
+  behaviour can be overridden by adding `[-a|--all]` command line option.
 
   Usage:
-       $ vscripts Tags2Facts [options]
+       $ vscripts tags2facts [options]
 
   Options:
       EOS
@@ -79,6 +79,6 @@ module VScripts
         ensure_file_content(file, tags_json)
         puts 'Done.'
       end
-    end # class Tags2Facts
+    end # class Tags2facts
   end # module Commands
 end # module VScripts
