@@ -37,7 +37,7 @@ vscripts GLOBAL-OPTIONS COMMAND OPTIONS
 associated with it and dumps them in a JSON file. By default this file is
 `/etc/facter/facts.d/ec2_tags.json`. It can be overridden with the
 ***`--file`*** argument.
-The `Name` and `DOMAIN` tags are excluded by default because this command is
+The `Name` and `Domain` tags are excluded by default because this command is
 intended to add Facter facts and these 2 already exist in Facter. This behaviour
 can be overridden by adding `[-a|--all]` command line option.
 

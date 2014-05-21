@@ -19,7 +19,7 @@ module VScripts
   `/etc/facter/facts.d/ec2_tags.json`. It can be overridden with the
   ***`--file`*** argument.
 
-  The `Name` and `DOMAIN` tags are excluded by default because this command is
+  The `Name` and `Domain` tags are excluded by default because this command is
   intended to add Facter facts and these 2 already exist in Facter. This
   behaviour can be overridden by adding `[-a|--all]` command line option.
 
@@ -59,7 +59,7 @@ module VScripts
 
       # @return [Array] A list of tags to be excluded
       def exclude_list
-        cli.all ? [] : %w(Name DOMAIN)
+        cli.all ? [] : %w(Name Domain)
       end
 
       # @return [Hash] Tags table

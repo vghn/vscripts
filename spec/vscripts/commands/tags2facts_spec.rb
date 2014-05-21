@@ -21,7 +21,7 @@ describe VScripts::Commands::Tags2facts do
 
   describe '#exclude_list' do
     it 'returns exclude list' do
-      expect(@tags2facts.exclude_list).to eq(['Name', 'DOMAIN'])
+      expect(@tags2facts.exclude_list).to eq(['Name', 'Domain'])
     end
   end
 
