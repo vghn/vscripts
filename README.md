@@ -1,6 +1,79 @@
 # VScripts
 
-A collection of ruby and bash scripts used for deployment.
+Automation daemon.
+
+## Dependencies
+- Ruby >= 1.9.3
+- An AWS account (you'll need to create):
+  - A SNS Queue (optional, will attempt to create if can't be found)
+  - A Route53 zone.
+
+## Installing
+
+### Suported distributions:
+  - Ubuntu 14.04 LTS (Trusty Tahr)
+
+### Ubuntu*
+
+First install out PGP key.
+```
+wget -O - http://apt.vladgh.com/gpg | sudo apt-key add -
+```
+Next, run the following commands to add the repository and update APT (replace
+CODENAME with your distribution):
+```
+echo "deb http://apt.vladgh.com CODENAME main" sudo tee \
+  /etc/apt/sources.list.d/apt.vladgh.com.list
+sudo apt-get update
+```
+Next install the package:
+```
+sudo apt-get install vscripts
+```
+Install ruby gems dependencies:
+```
+cd /opt/vscripts
+bundle install --without=development
+```
+
+## Usage
+
+```
+vscripts GLOBAL-OPTIONS COMMAND OPTIONS
+```
+
+
+### Global Options:
+```
+  -h|--help: Displays VScripts help.
+  -v|--version: Displays the version number.
+```
+
+
+### Commands:
+
+1. **Tags2Facts**
+  This command can only be run on an AWS EC2 instance. It looks for all tags
+associated with it and dumps them in a JSON file. By default this file is
+`/etc/facter/facts.d/ec2_tags.json`. It can be overridden with the
+***`--file`*** argument.
+The `Name` and `DOMAIN` tags are excluded by default because this command is
+intended to add Facter facts and these 2 already exist in Facter. This behaviour
+can be overridden by adding `[-a|--all]` command line option.
+
+    > **Options**:
+    ```
+--file, -f <s>: The file that will store the tags (default:
+                /etc/facter/facts.d/ec2_tags.json)
+--all,  -a: Collect all tags
+--help, -h: Shows help
+    ```
+
+    > **EXAMPLES**:
+    ```
+$ vscripts tags2facts
+$ vscripts tags2facts --file /tmp/my_tags.json --all
+    ```
 
 
 ## Contributing
