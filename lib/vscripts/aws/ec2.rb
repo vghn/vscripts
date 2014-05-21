@@ -37,7 +37,7 @@ module VScripts
       # Get a list of tags
       def tags_without(list = [])
         list.each { |excluded| all_tags_hash.delete(excluded) }
-        all_tags_hash.to_h
+        all_tags_hash
       end
 
       # Looks for the value of the 'Name' tag for the given instance
