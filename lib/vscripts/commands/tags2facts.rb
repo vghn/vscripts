@@ -69,7 +69,7 @@ module VScripts
 
       # @return [JSON] Formatted JSON
       def tags_json
-        JSON.pretty_generate(tags_hash)
+        JSON.pretty_generate(tags_hash.to_h)
       end
 
       # Writes the formatted JSON to a file
