@@ -27,8 +27,8 @@ describe VScripts::CommandLine do
 
   describe '#extra' do
     it 'returns the rest of the arguments as an Array' do
-      expect(@cli.extra).to be_an_instance_of Array
-      expect(@cli.extra).to eql ['extra_args']
+      expect(@cli.arguments).to be_an_instance_of Array
+      expect(@cli.arguments).to eql ['extra_args']
     end
   end
 end

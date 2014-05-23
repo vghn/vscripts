@@ -29,13 +29,13 @@ module VScripts
   Options:
       EOS
 
-      # @return [Hash] Command specific arguments
-      attr_reader :cli
+      # @return [Array] Command specific arguments
+      attr_reader :arguments
       # @return [AWS::EC2] EC2 SDK
       attr_reader :ec2
 
-      def initialize(*args)
-        @cli ||= parse(*args)
+      def initialize(argv = [])
+        @arguments ||= argv
         @ec2 ||= VScripts::AWS::EC2.new
       end
 
@@ -51,9 +51,9 @@ module VScripts
       end
 
       # Parses command line arguments
-      def parse(*args)
-        Trollop.with_standard_exception_handling parser do
-          parser.parse args
+      def cli
+        @cli ||= Trollop.with_standard_exception_handling parser do
+          parser.parse arguments
         end
       end
 

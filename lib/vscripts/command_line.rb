@@ -4,32 +4,32 @@ require 'vscripts/command'
 module VScripts
   # Global Command Line
   class CommandLine
+    # @return [Array] All the command line arguments
+    attr_accessor :arguments
     # @return [Hash] Global command line arguments
     attr_reader :global
     # @return [String] Command name
     attr_reader :command
-    # @return [Array] Extra arguments passed to the command
-    attr_reader :extra
 
     # Build command line arguments
-    def initialize(*args)
-      @global ||= parse(*args)
-      @command ||= check_command(*args)
-      @extra ||= rest(*args)
+    def initialize(argv = [])
+      @arguments ||= argv
+      @global    ||= parse_cli_options
+      @command   ||= verify_command
     end
 
     # Specifies command line options
     # This method smells of :reek:NestedIterators but ignores them
     # This method smells of :reek:TooManyStatements but ignores them
     def parser # rubocop:disable MethodLength
-      available = Command.list
-      Trollop::Parser.new do
+      available = Command.list.map { |cmd| cmd.to_s.downcase }
+      @parser ||= Trollop::Parser.new do
         version VScripts::VERSION_C
         banner <<-EOS
 VScripts automation daemon.
 
 Available commands:
-        #{available.map { |cmd| cmd.to_s.downcase }}
+        #{available}
 
 Usage:
   vscripts GLOBAL-OPTIONS COMMAND OPTIONS
@@ -44,29 +44,23 @@ EOS
     end
 
     # Parses command line arguments
-    def parse(*args)
+    def parse_cli_options
       Trollop.with_standard_exception_handling parser do
-        fail Trollop::HelpNeeded if args.empty?
-        parser.parse args
+        fail Trollop::HelpNeeded if arguments.empty?
+        parser.parse arguments
       end
     end
 
     # Ensure command is available
     # @return [String] Command name
-    def check_command(args)
-      command_cli = args.shift
+    def verify_command
+      command_cli = arguments.shift
       command_cls = command_cli.capitalize.to_sym
-      if command_cli && Command.list.include?(command_cls)
+      if Command.list.include?(command_cls)
         return command_cls
       else
-        puts "Error: Unknown subcommand '#{command_cli}'\nTry --help for help."
-        exit 1
+        abort "Error: Unknown subcommand '#{command_cli}'\nTry --help."
       end
-    end
-
-    # @return [Array] The rest of the arguments
-    def rest(args)
-      args
     end
   end # class CommandLine
 end # module VScripts
