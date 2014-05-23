@@ -1,3 +1,7 @@
+Version 0.0.3
+---
+  * Fix command line ([Vlad - 78c776a](https://github.com/vghn/vscripts/commit/78c776ab75f4b4469a73fd08d083b43291b20db0))
+
 Version 0.0.2
 ---
   * Fix command line options ([Vlad - efa8c95](https://github.com/vghn/vscripts/commit/efa8c959176da8ca95f13ef4433eb7468ecfaea8))
