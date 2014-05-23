@@ -1,4 +1,5 @@
 require 'trollop'
+require 'vscripts/version'
 require 'vscripts/command'
 
 module VScripts
