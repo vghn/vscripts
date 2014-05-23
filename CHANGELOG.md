@@ -1,3 +1,8 @@
+Version 0.0.2
+---
+  * Fix command line options ([Vlad - efa8c95](https://github.com/vghn/vscripts/commit/efa8c959176da8ca95f13ef4433eb7468ecfaea8))
+  * Minor fixes ([Vlad - b3cecf1](https://github.com/vghn/vscripts/commit/b3cecf14a614ce561e98345378c4cfc25f9b0c44))
+
 Version 0.0.1
 ---
   * Create gem structure ([Vlad - 635a06d](https://github.com/vghn/vscripts/commit/635a06d33fab5e8dbee39991ffc1e7bbf4ef4e6f))
