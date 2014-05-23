@@ -1,6 +1,7 @@
 # VScripts
   [![Build Status](https://travis-ci.org/vghn/vscripts.svg?branch=master)](https://travis-ci.org/vghn/vscripts)
   [![Code Climate](https://codeclimate.com/github/vghn/vscripts.png)](https://codeclimate.com/github/vghn/vscripts)
+  [![Gem Version](https://badge.fury.io/rb/vscripts.svg)](http://badge.fury.io/rb/vscripts)
 
 Automation daemon.
 
@@ -23,14 +24,14 @@ vscripts GLOBAL-OPTIONS COMMAND OPTIONS
 ```
 
 
-### Global Options:
+### Global Options
 ```
   -h|--help: Displays VScripts help.
   -v|--version: Displays the version number.
 ```
 
 
-### Commands:
+### Commands
 
 1. **Tags2Facts**
   This command can only be run on an AWS EC2 instance. It looks for all tags

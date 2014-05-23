@@ -1,4 +1,4 @@
-DEV_BRANCH     = 'develop'
+DEV_BRANCH     = 'development'
 LOG_RANGE      = "master...#{DEV_BRANCH}"
 VERSION_FILE   = 'VERSION'
 CHANGELOG_FILE = 'CHANGELOG.md'
