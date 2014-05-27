@@ -21,6 +21,7 @@ describe VScripts::AWS::EC2 do
     @ec2 = VScripts::AWS::EC2
     @ec2.any_instance.stub(:check_instance) { true }
     @ec2.any_instance.stub(:instance_id) { @inst1.id }
+    @ec2.any_instance.stub(:region) { 'us-east-1' }
   end
 
   describe '#instance' do

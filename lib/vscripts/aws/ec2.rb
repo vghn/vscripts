@@ -12,7 +12,7 @@ module VScripts
 
       # Load AWS SDK for EC2
       def initialize
-        @ec2 ||= ::AWS::EC2.new
+        @ec2 ||= ::AWS::EC2.new(region: region)
       end
 
       # @return [AWS::EC2]
