@@ -29,6 +29,8 @@ module VScripts
       # Returns the local domain name
       def local_domain_name
         `dnsdomainname`.strip
+      rescue
+        'local'
       end
 
       # Tries to get the reverse dns
