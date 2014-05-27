@@ -62,14 +62,19 @@ module VScripts
         cli.all ? [] : %w(Name Domain)
       end
 
-      # @return [Hash] Tags table
-      def tags_hash
-        ec2.tags_without(exclude_list).to_h
+      # @return [Hash] Filtered tags
+      def filtered_tags
+        ec2.tags_without(exclude_list)
       end
 
       # @return [JSON] Formatted JSON
       def tags_json
-        JSON.pretty_generate(tags_hash.to_h)
+        tags_hash = filtered_tags.to_h
+        if tags_hash.empty?
+          abort 'No tags were found!'
+        else
+          JSON.pretty_generate(tags_hash.to_h)
+        end
       end
 
       # Writes the formatted JSON to a file
