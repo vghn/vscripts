@@ -64,16 +64,16 @@ module VScripts
 
       # @return [Hash] Filtered tags
       def filtered_tags
-        ec2.tags_without(exclude_list)
+        ec2.tags_without(exclude_list).inject({}) { |hash, tag| hash[tag[0]] = tag[1]; hash }
       end
 
       # @return [JSON] Formatted JSON
       def tags_json
-        tags_hash = filtered_tags.to_h
+        tags_hash = filtered_tags
         if tags_hash.empty?
           abort 'No tags were found!'
         else
-          JSON.pretty_generate(tags_hash.to_h)
+          JSON.pretty_generate(tags_hash)
         end
       end
 
