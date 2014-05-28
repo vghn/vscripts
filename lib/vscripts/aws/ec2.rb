@@ -59,9 +59,8 @@ module VScripts
       def similar_instances
         check_instance
         functional_instances.map do |functional_instance|
-          if functional_instance.id != instance_id
-            functional_instance.tags['Name']
-          end
+          next if functional_instance.id == instance_id
+          functional_instance.tags['Name']
         end
       end
     end # class EC2

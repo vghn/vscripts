@@ -64,7 +64,10 @@ module VScripts
 
       # @return [Hash] Filtered tags
       def filtered_tags
-        ec2.tags_without(exclude_list).inject({}) { |hash, tag| hash[tag[0]] = tag[1]; hash }
+        ec2.tags_without(exclude_list).each_with_object({}) do |tag, hash|
+          hash[tag[0]] = tag[1]
+          hash
+        end
       end
 
       # @return [JSON] Formatted JSON
