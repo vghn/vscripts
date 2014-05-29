@@ -1,4 +1,5 @@
 require 'vscripts/commands/tags2facts'
+require 'vscripts/commands/identify'
 
 module VScripts
   # Main Command class
