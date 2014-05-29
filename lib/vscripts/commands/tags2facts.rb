@@ -36,7 +36,6 @@ module VScripts
 
       def initialize(argv = [])
         @arguments ||= argv
-        @ec2 ||= VScripts::AWS::EC2.new
       end
 
       # Specifies command line options
@@ -48,6 +47,12 @@ module VScripts
           opt :all, 'Collect all tags'
           stop_on_unknown
         end
+      end
+
+      # Loads AWS EC2
+      # This method smells of :reek:UncommunicativeMethodName but ignores it
+      def ec2
+        @ec2 ||= VScripts::AWS::EC2.new
       end
 
       # Parses command line arguments
