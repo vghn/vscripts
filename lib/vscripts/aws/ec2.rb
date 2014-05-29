@@ -29,6 +29,16 @@ module VScripts
         instance.tags
       end
 
+      # @return [AWS::EC2::ResourceTagCollection] Tags collection
+      def tag(key)
+        instance.tags[key]
+      end
+
+      # @return [AWS::EC2::Tag] Creates an EC2 Tag
+      def create_tag(resource, key, value)
+        ec2.tags.create(resource, key, value)
+      end
+
       # Get a list of tags
       def tags_without(list = [])
         all = all_tags

@@ -44,6 +44,14 @@ describe VScripts::AWS::EC2 do
     end
   end
 
+  describe '#tag' do
+    it 'returns the tag value' do
+      subject.stub_chain(:instance, :tags) {@tags}
+      expect(subject.tag('Name'))
+        .to eq('test')
+    end
+  end
+
   describe '#tags_without' do
     it 'returns a Hash' do
       expect(subject.tags_without)
