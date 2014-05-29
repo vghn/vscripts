@@ -52,8 +52,8 @@ can be overridden by adding `[-a|--all]` command line option.
 
     > **EXAMPLES**:
     ```
-$ vscripts tags2facts
-$ vscripts tags2facts --file /tmp/my_tags.json --all
+    $ vscripts tags2facts
+    $ vscripts tags2facts --file /tmp/my_tags.json --all
     ```
 
 2. **identify**
@@ -84,12 +84,14 @@ associated with the current instance.
     ```
 
     > EXAMPLES:
-    `$ vscripts identify`
-    `MyGroup-MyRole-1.Example.tld`
-    `$ vscripts identify --ec2-tag-theme NAME-#`
-    `MyName-1.Example.tld`
-    `$ vscripts identify --host myhost --domain example.com`
-    `myhost.example.com`
+    ```
+    $ vscripts identify
+    MyGroup-MyRole-1.Example.tld
+    $ vscripts identify --ec2-tag-theme NAME-#
+    MyName-1.Example.tld
+    $ vscripts identify --host myhost --domain example.com
+    myhost.example.com
+    ```
 
 
 ## Contributing
