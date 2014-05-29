@@ -12,7 +12,7 @@ module VScripts
 
       # Load AWS SDK for EC2
       def initialize
-        @ec2 ||= ::AWS::EC2.new
+        @ec2 ||= ::AWS::EC2.new(region: region)
       end
 
       # @return [AWS::EC2]
@@ -27,6 +27,16 @@ module VScripts
       # @return [AWS::EC2::ResourceTagCollection] Tags collection
       def all_tags
         instance.tags
+      end
+
+      # @return [AWS::EC2::ResourceTagCollection] Tags collection
+      def tag(key)
+        instance.tags[key]
+      end
+
+      # @return [AWS::EC2::Tag] Creates an EC2 Tag
+      def create_tag(resource, key, value)
+        ec2.tags.create(resource, key, value)
       end
 
       # Get a list of tags
@@ -59,9 +69,8 @@ module VScripts
       def similar_instances
         check_instance
         functional_instances.map do |functional_instance|
-          if functional_instance.id != instance_id
-            functional_instance.tags['Name']
-          end
+          next if functional_instance.id == instance_id
+          functional_instance.tags['Name']
         end
       end
     end # class EC2

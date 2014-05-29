@@ -21,6 +21,7 @@ describe VScripts::AWS::EC2 do
     @ec2 = VScripts::AWS::EC2
     @ec2.any_instance.stub(:check_instance) { true }
     @ec2.any_instance.stub(:instance_id) { @inst1.id }
+    @ec2.any_instance.stub(:region) { 'us-east-1' }
   end
 
   describe '#instance' do
@@ -40,6 +41,14 @@ describe VScripts::AWS::EC2 do
     it 'returns AWS::EC2::ResourceTagCollection' do
       expect(subject.all_tags)
         .to be_an_instance_of ::AWS::EC2::ResourceTagCollection
+    end
+  end
+
+  describe '#tag' do
+    it 'returns the tag value' do
+      subject.stub_chain(:instance, :tags) {@tags}
+      expect(subject.tag('Name'))
+        .to eq('test')
     end
   end
 

@@ -36,7 +36,6 @@ module VScripts
 
       def initialize(argv = [])
         @arguments ||= argv
-        @ec2 ||= VScripts::AWS::EC2.new
       end
 
       # Specifies command line options
@@ -48,6 +47,12 @@ module VScripts
           opt :all, 'Collect all tags'
           stop_on_unknown
         end
+      end
+
+      # Loads AWS EC2
+      # This method smells of :reek:UncommunicativeMethodName but ignores it
+      def ec2
+        @ec2 ||= VScripts::AWS::EC2.new
       end
 
       # Parses command line arguments
@@ -62,14 +67,22 @@ module VScripts
         cli.all ? [] : %w(Name Domain)
       end
 
-      # @return [Hash] Tags table
-      def tags_hash
-        ec2.tags_without(exclude_list).to_h
+      # @return [Hash] Filtered tags
+      def filtered_tags
+        ec2.tags_without(exclude_list).each_with_object({}) do |tag, hash|
+          hash[tag[0]] = tag[1]
+          hash
+        end
       end
 
       # @return [JSON] Formatted JSON
       def tags_json
-        JSON.pretty_generate(tags_hash.to_h)
+        tags_hash = filtered_tags
+        if tags_hash.empty?
+          abort 'No tags were found!'
+        else
+          JSON.pretty_generate(tags_hash)
+        end
       end
 
       # Writes the formatted JSON to a file

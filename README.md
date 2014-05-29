@@ -52,8 +52,45 @@ can be overridden by adding `[-a|--all]` command line option.
 
     > **EXAMPLES**:
     ```
-$ vscripts tags2facts
-$ vscripts tags2facts --file /tmp/my_tags.json --all
+    $ vscripts tags2facts
+    $ vscripts tags2facts --file /tmp/my_tags.json --all
+    ```
+
+2. **identify**
+  This command creates a themed host name and fully qualified domain name for
+the server, using AWS EC2 tags. The default theme is `Group-Role-#` which means
+that the command collects the value of the `Group` and the `Role` AWS EC2 tags
+(if they are associated with the instance). Additionally, the value of the
+`Domain` tag is also collected so the resulting new host name will be
+`MYGROUP-MYROLE-#.MYDOMAIN`.
+These tags can be any existing EC2 tags. `#` is used as a placeholder for a
+number. This number starts at 1, and, in case other similarly named instances
+exist in the current AWS account, it will be incremented accordingly.
+Once a new host name is composed, both `/etc/hostname` and `/etc/hosts` are
+modified on the local instance and a new `Name` EC2 tag is created and
+associated with the current instance.
+
+    If a ***--host*** argument is provided it will override the default theme.
+    *DOMAIN* is still looked up.
+    If a ***--domain*** argument is provided it will override the default
+    domain.
+
+    > Options:
+    > ```
+    --ec2-tag-theme, -e <s>: Theme (default: Group-Role-#)
+    --host, -n <s>: Host name
+    --domain, -d <s>: Domain
+    --help, -h: Shows help
+    ```
+
+    > EXAMPLES:
+    ```
+    $ vscripts identify
+    MyGroup-MyRole-1.Example.tld
+    $ vscripts identify --ec2-tag-theme NAME-#
+    MyName-1.Example.tld
+    $ vscripts identify --host myhost --domain example.com
+    myhost.example.com
     ```
 
 

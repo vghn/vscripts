@@ -41,9 +41,8 @@ module VScripts
 
       # Fail if the current instance is not an EC2 instance
       def check_instance
-        unless ec2_instance?
-          abort 'FATAL: NOT an EC2 instance or could not connect to Metadata'
-        end
+        return if ec2_instance?
+        abort 'FATAL: NOT an EC2 instance or could not connect to Metadata'
       end
     end # module Metadata
   end # module AWS

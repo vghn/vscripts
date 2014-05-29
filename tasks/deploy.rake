@@ -3,9 +3,25 @@ LOG_RANGE      = "master...#{DEV_BRANCH}"
 VERSION_FILE   = 'VERSION'
 CHANGELOG_FILE = 'CHANGELOG.md'
 
-desc 'Automated deployment'
-task :deploy do
-  check_branch
+namespace 'deploy' do
+  desc 'Automated deployment (increment patch)'
+  task :patch do
+    bump_version('patch')
+    deploy
+  end
+  desc 'Automated deployment (increment minor)'
+  task :minor do
+    bump_version('minor')
+    deploy
+  end
+  desc 'Automated deployment (increment major)'
+  task :major do
+    bump_version('major')
+    deploy
+  end
+end
+
+def deploy
   commit_changelog
   merge_changes
   push_release
@@ -21,12 +37,20 @@ def check_branch
   `git fetch`
 end
 
-def bump_version
+def bump_version(type = 'patch')
+  check_branch
   @version = File.read(VERSION_FILE).strip
   @version.gsub(/(\d+)\.(\d+)\.(\d+)/) {
     @major, @minor, @patch = $1.to_i, $2.to_i, $3.to_i
   }
-  @new_version = "#{@major}.#{@minor}.#{@patch + 1}"
+  case type
+  when 'patch'
+    @new_version = "#{@major}.#{@minor}.#{@patch + 1}"
+  when 'minor'
+    @new_version = "#{@major}.#{@minor + 1}.0"
+  when 'major'
+    @new_version = "#{@major + 1}.0.0"
+  end
   File.write('VERSION', @new_version)
 end
 
@@ -43,7 +67,6 @@ def pretty_changes
 end
 
 def update_changelog
-  bump_version
   puts 'Writing new changelog'
   File.write(
     CHANGELOG_FILE,
