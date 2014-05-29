@@ -1,3 +1,16 @@
+Version 0.1.0
+---
+  * Domain fallback to local ([Vlad Ghinea - c0d176f](https://github.com/vghn/vscripts/commit/c0d176fe244c10dd8d2b394075d5d6ef1c0ef332))
+  * Add EC2 region support ([Vlad Ghinea - 8bc9561](https://github.com/vghn/vscripts/commit/8bc956128ca6495392d553366ad34aa15b375afa))
+  * Fix JSON tags generation ([Vlad Ghinea - 0134d42](https://github.com/vghn/vscripts/commit/0134d421abb875a1e948927162606b8cfbd7ab43))
+  * Fix filtered tags hash ([Vlad Ghinea - 8f72637](https://github.com/vghn/vscripts/commit/8f72637a555d5f0535d1a87be6c50f36fb8ee181))
+  * Clean-up code ([Vlad Ghinea - 9d1d544](https://github.com/vghn/vscripts/commit/9d1d544eb8c824ab42e0c3cde5485846833b9af8))
+  * New tag query and creation functions ([Vlad Ghinea - 12f1ca0](https://github.com/vghn/vscripts/commit/12f1ca069fef78699c02b8818c8da299e024a785))
+  * Clean up code ([Vlad Ghinea - f7a9d16](https://github.com/vghn/vscripts/commit/f7a9d16eb69365b01365285dba4f9ec5052cae53))
+  * Add identify command ([Vlad Ghinea - eea3876](https://github.com/vghn/vscripts/commit/eea387656e36137f93b84a8437632f5ca1cbe17d))
+  * Update README ([Vlad Ghinea - 90dcf2e](https://github.com/vghn/vscripts/commit/90dcf2eda7640f4705e385e5df0d99abda81ec68))
+  * Add automated semantic versioning task ([Vlad Ghinea - 5b60e02](https://github.com/vghn/vscripts/commit/5b60e02d64588b1b09dfc3b5848e9ea1aada535e))
+
 Version 0.0.3
 ---
   * Fix command line ([Vlad - 78c776a](https://github.com/vghn/vscripts/commit/78c776ab75f4b4469a73fd08d083b43291b20db0))
