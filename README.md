@@ -56,7 +56,7 @@ can be overridden by adding `[-a|--all]` command line option.
     $ vscripts tags2facts --file /tmp/my_tags.json --all
     ```
 
-2. **identify**
+2. **Identify**
   This command creates a themed host name and fully qualified domain name for
 the server, using AWS EC2 tags. The default theme is `Group-Role-#` which means
 that the command collects the value of the `Group` and the `Role` AWS EC2 tags
@@ -72,6 +72,7 @@ associated with the current instance.
 
     If a ***--host*** argument is provided it will override the default theme.
     *DOMAIN* is still looked up.
+
     If a ***--domain*** argument is provided it will override the default
     domain.
 
