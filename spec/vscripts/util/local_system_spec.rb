@@ -38,7 +38,7 @@ describe VScripts::Util::LocalSystem do
       test_dir  = Dir::Tmpname.make_tmpname '/tmp/vscripts', nil
       test_file = 'test_file'
       @dummy.ensure_file_dir("#{test_dir}/#{test_file}")
-      expect(Dir.exists?(test_dir)).to be_true
+      expect(Dir.exists?(test_dir)).to be true
       `rm -r #{test_dir}`
     end
   end
@@ -67,13 +67,15 @@ describe VScripts::Util::LocalSystem do
   end
   describe '#process_checks' do
     it 'should execute system command and return exit code' do
-      @dummy.stub(:checks) {{'test command' => 'exit 5'}}
+      allow(@dummy).to receive(:checks)
+        .and_return({'test command' => 'exit 5'})
       expect(@dummy.process_checks).to eq({"test command"=>5})
     end
   end
   describe '#status_codes' do
     it 'should return an Array of exit codes' do
-      @dummy.stub(:checks) {{'test command' => 'exit 5'}}
+      allow(@dummy).to receive(:checks)
+        .and_return({'test command' => 'exit 5'})
       expect(@dummy.status_codes).to eq([5])
     end
   end

@@ -3,7 +3,8 @@ require 'vscripts/commands/tags2facts'
 describe VScripts::Commands::Tags2facts do
 
   before :each do
-    VScripts::AWS::EC2.any_instance.stub(:region) { 'us-east-1' }
+    allow_any_instance_of(VScripts::AWS::EC2).to receive(:region)
+      .and_return('us-east-1')
     @tags2facts = VScripts::Commands::Tags2facts.new(['extra_args'])
   end
 
@@ -28,7 +29,8 @@ describe VScripts::Commands::Tags2facts do
 
   describe '#tags_json' do
     it 'returns JSON formatted string' do
-      @tags2facts.stub(:filtered_tags) {{ key: 'value' }}
+      allow(@tags2facts).to receive(:filtered_tags)
+        .and_return({ key: 'value' })
       expect(@tags2facts.tags_json).to eq("{\n  \"key\": \"value\"\n}")
     end
   end

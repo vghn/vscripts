@@ -19,9 +19,9 @@ describe VScripts::AWS::EC2 do
     @inst3 = OpenStruct.new(id: '3333', status: :terminated)
 
     @ec2 = VScripts::AWS::EC2
-    @ec2.any_instance.stub(:check_instance) { true }
-    @ec2.any_instance.stub(:instance_id) { @inst1.id }
-    @ec2.any_instance.stub(:region) { 'us-east-1' }
+    allow_any_instance_of(@ec2).to receive(:check_instance).and_return(true)
+    allow_any_instance_of(@ec2).to receive(:instance_id).and_return(@inst1.id)
+    allow_any_instance_of(@ec2).to receive(:region).and_return('us-east-1')
   end
 
   describe '#instance' do
@@ -46,7 +46,8 @@ describe VScripts::AWS::EC2 do
 
   describe '#tag' do
     it 'returns the tag value' do
-      subject.stub_chain(:instance, :tags) {@tags}
+      allow(subject).to receive_message_chain('instance.tags')
+        .and_return(@tags)
       expect(subject.tag('Name'))
         .to eq('test')
     end
@@ -61,7 +62,7 @@ describe VScripts::AWS::EC2 do
 
   describe '#name' do
     it 'returns Hash value' do
-      subject.stub(:all_tags_hash) {@tags}
+      allow(subject).to receive(:all_tags_hash).and_return(@tags)
       expect(subject.name).to eq(@tags['Name'])
     end
   end
@@ -75,7 +76,8 @@ describe VScripts::AWS::EC2 do
 
   describe '#functional_instances' do
     it 'returns an Array' do
-      subject.stub(:named_instances) { [@inst1, @inst2, @inst3] }
+      allow(subject).to receive(:named_instances)
+        .and_return([@inst1, @inst2, @inst3])
       expect(subject.functional_instances).to be_an Array
       expect(subject.functional_instances).to include(@inst1, @inst2)
     end
@@ -83,7 +85,8 @@ describe VScripts::AWS::EC2 do
 
   describe '#similar_instances' do
     it 'returns an Array' do
-      subject.stub(:functional_instances) { [@inst1, @inst2] }
+      allow(subject).to receive(:functional_instances)
+        .and_return([@inst1, @inst2])
       expect(subject.similar_instances).to include(@tags['Name'])
     end
   end

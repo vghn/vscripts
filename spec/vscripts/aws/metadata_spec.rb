@@ -5,7 +5,8 @@ describe VScripts::AWS::Metadata do
   before(:each) do
     @dummy = DummyClass.new
     @dummy.extend VScripts::AWS::Metadata
-    @dummy.stub_chain(:open, :read).and_return('Remote server response')
+    allow(@dummy).to receive_message_chain('open.read')
+      .and_return('Remote server response')
   end
 
   describe '#metadata_url' do
@@ -22,7 +23,7 @@ describe VScripts::AWS::Metadata do
 
   describe '#region' do
     it 'returns region string' do
-      @dummy.stub(:zone).and_return('us-test-1a')
+      allow(@dummy).to receive(:zone).and_return('us-test-1a')
       expect(@dummy.region).to eq('us-test-1')
     end
   end
@@ -41,8 +42,8 @@ describe VScripts::AWS::Metadata do
 
   describe '#ec2_instance?' do
     it 'returns true' do
-      Net::HTTP.stub(:get_response).and_return(true)
-      expect(@dummy.ec2_instance?).to be_true
+      allow(Net::HTTP).to receive(:get_response).and_return(true)
+      expect(@dummy.ec2_instance?).to be true
     end
   end
 end

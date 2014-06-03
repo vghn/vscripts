@@ -4,11 +4,9 @@ require 'vscripts/commands/identify'
 describe VScripts::Commands::Identify do
   before :each do
     @identify = VScripts::Commands::Identify.new
-    @identify.stub_chain(:ec2, :tag).with('Group') {'TestGroup'}
-    @identify.stub_chain(:ec2, :tag).with('Role') {'TestRole'}
-    @identify.stub_chain(:ec2, :similar_instances) {[
-      'TestGroup-TestRole-1.'
-    ]}
+    allow(@identify).to receive_message_chain('ec2.tag').and_return('TestTag')
+    allow(@identify).to receive_message_chain('ec2.similar_instances')
+      .and_return(['TestTag-TestTag-1.'])
   end
 
   describe '#new' do
@@ -55,26 +53,26 @@ describe VScripts::Commands::Identify do
 
   describe '#map2tags' do
     it 'returns an array' do
-      expect(@identify.map2tags).to eq(['TestGroup', 'TestRole', '#'])
+      expect(@identify.map2tags).to eq(['TestTag', 'TestTag', '#'])
     end
   end
 
   describe '#themed_host_name' do
     it 'returns a string' do
-      expect(@identify.themed_host_name).to eq('TestGroup-TestRole-#')
+      expect(@identify.themed_host_name).to eq('TestTag-TestTag-#')
     end
   end
 
   describe '#incremented_hostname' do
     it 'returns a string' do
-      expect(@identify.incremented_hostname).to eq('TestGroup-TestRole-2')
+      expect(@identify.incremented_hostname).to eq('TestTag-TestTag-2')
     end
   end
 
   describe '#new_hostname' do
     context 'when host is not passed' do
       it 'hostname is incremented' do
-        expect(@identify.new_hostname).to eq('TestGroup-TestRole-2')
+        expect(@identify.new_hostname).to eq('TestTag-TestTag-2')
       end
     end
     context 'when host is passed' do
@@ -89,14 +87,15 @@ describe VScripts::Commands::Identify do
     context 'when domain is not passed' do
       context 'when tag is not present' do
         it 'returns a String' do
-          @identify.stub_chain(:ec2, :tag).with('Domain') {nil}
-          @identify.stub(:local_domain_name) {'local'}
+          allow(@identify).to receive_message_chain('ec2.tag')
+          allow(@identify).to receive(:local_domain_name).and_return('local')
           expect(@identify.new_domain).to eq('local')
         end
       end
       context 'when tag is present' do
         it 'returns a String' do
-          @identify.stub_chain(:ec2, :tag).with('Domain') {'Test'}
+          allow(@identify).to receive_message_chain('ec2.tag')
+            .and_return('Test')
           expect(@identify.new_domain).to eq('Test')
         end
       end
