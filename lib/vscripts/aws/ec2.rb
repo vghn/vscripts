@@ -41,9 +41,10 @@ module VScripts
 
       # Get a list of tags
       def tags_without(list = [])
-        all = all_tags
-        list.each { |excluded| all.delete(excluded) }
-        all
+        all_tags.each_with_object({}) do |tag, hash|
+          hash[tag[0]] = tag[1] unless list.include? tag[0]
+          hash
+        end
       end
 
       # Looks for the value of the 'Name' tag for the given instance

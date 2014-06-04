@@ -46,6 +46,14 @@ describe VScripts::AWS::EC2 do
 
   describe '#tag' do
     it 'returns the tag value' do
+      resource = ::AWS.ec2.instances['i-12345678']
+      expect(subject.create_tag(resource, 'TestTag', value: 'TestValue'))
+        .to be_an_instance_of ::AWS::EC2::Tag
+    end
+  end
+
+  describe '#create_tag' do
+    it 'creates tag' do
       allow(subject).to receive_message_chain('instance.tags')
         .and_return(@tags)
       expect(subject.tag('Name'))
@@ -55,8 +63,7 @@ describe VScripts::AWS::EC2 do
 
   describe '#tags_without' do
     it 'returns a Hash' do
-      expect(subject.tags_without)
-        .to be_an_instance_of ::AWS::EC2::ResourceTagCollection
+      expect(subject.tags_without).to be_an_instance_of Hash
     end
   end
 
