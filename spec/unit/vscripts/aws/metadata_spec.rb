@@ -41,9 +41,22 @@ describe VScripts::AWS::Metadata do
   end
 
   describe '#ec2_instance?' do
-    it 'returns true' do
+    it 'returns true if metadata accessible' do
       allow(Net::HTTP).to receive(:get_response).and_return(true)
       expect(@dummy.ec2_instance?).to be true
+    end
+    it 'returns false if metadata not accessible' do
+      allow(Net::HTTP).to receive(:get_response).and_raise(StandardError)
+      expect(@dummy.ec2_instance?).to be false
+    end
+  end
+
+  describe '#check_instance' do
+    it 'exits if not ec2 instance' do
+      $stderr = StringIO.new
+      allow(@dummy).to receive(:ec2_instance?).and_return(false)
+      expect { @dummy.check_instance }.to raise_error(SystemExit)
+      $stderr = STDERR
     end
   end
 end

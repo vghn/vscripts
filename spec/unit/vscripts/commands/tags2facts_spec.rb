@@ -1,3 +1,4 @@
+require 'spec_helper'
 require 'vscripts/commands/tags2facts'
 
 describe VScripts::Commands::Tags2facts do
@@ -27,11 +28,32 @@ describe VScripts::Commands::Tags2facts do
     end
   end
 
+  describe '#filtered_tags' do
+    it 'returns a filtered list' do
+      allow(@tags2facts.ec2).to receive(:tags_without)
+      expect(@tags2facts.filtered_tags).to be_nil
+    end
+  end
+
   describe '#tags_json' do
     it 'returns JSON formatted string' do
+      $stderr = StringIO.new
       allow(@tags2facts).to receive(:filtered_tags)
-        .and_return({ key: 'value' })
+        .and_return({}, { key: 'value' })
+      expect{@tags2facts.tags_json}.to raise_error(SystemExit)
       expect(@tags2facts.tags_json).to eq("{\n  \"key\": \"value\"\n}")
+      $stderr = STDERR
+    end
+  end
+
+  describe '#execute' do
+    it 'executes the command' do
+      $stdout = StringIO.new
+      allow(@tags2facts).to receive(:tags_json)
+      allow(@tags2facts).to receive(:ensure_file_content)
+      @tags2facts.execute
+      expect($stdout.string).to match(/Writing tags to/)
+      $stdout = STDOUT
     end
   end
 end

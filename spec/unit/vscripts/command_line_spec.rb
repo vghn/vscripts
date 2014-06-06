@@ -1,3 +1,4 @@
+require 'spec_helper'
 require 'vscripts/command_line'
 
 describe VScripts::CommandLine do
@@ -29,6 +30,16 @@ describe VScripts::CommandLine do
     it 'returns the rest of the arguments as an Array' do
       expect(@cli.arguments).to be_an_instance_of Array
       expect(@cli.arguments).to eql ['extra_args']
+    end
+  end
+
+  describe '#verify_command' do
+    it 'fails if command not present' do
+      $stderr = StringIO.new
+      expect {
+        VScripts::CommandLine.new(['TestCommand', 'TestArguments']).command
+      }.to raise_error(SystemExit)
+      $stderr = STDERR
     end
   end
 end

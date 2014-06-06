@@ -1,3 +1,4 @@
+require 'spec_helper'
 require 'vscripts/command'
 
 describe VScripts::Command do
