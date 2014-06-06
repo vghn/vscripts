@@ -60,16 +60,14 @@ module VScripts
           newfile.write(body)
         end
       rescue Errno::EACCES
-        puts "FATAL: You need to be root in order to write to #{file}"
+        abort "FATAL: You need to be root in order to write to #{file}"
       end
 
       # Ensures the specified file has the specified content
       def ensure_file_content(file, body)
         write = write_file(file, body)
-        read  = IO.read(file)
+        read  = IO.read(file) rescue nil
         read == body || write
-      rescue
-        write
       end
 
       # Gets system checks from environment variables
