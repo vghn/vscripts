@@ -4,7 +4,7 @@ require 'vscripts'
 describe VScripts do
   before(:all) do
     $stdout = StringIO.new
-    @cmd = VScripts::Command.list.first.to_s.downcase
+    @cmd = VScripts::Commands.list.first.to_s.downcase
   end
 
   after(:all) do

@@ -1,7 +1,3 @@
-require 'fileutils'
-require 'yaml'
-require 'English'
-
 module VScripts
   module Util
     # Local system functions library
@@ -66,30 +62,8 @@ module VScripts
       # Ensures the specified file has the specified content
       def ensure_file_content(file, body)
         write = write_file(file, body)
-        read  = IO.read(file) rescue nil
+        read  = IO.read(file)
         read == body || write
-      end
-
-      # Gets system checks from environment variables
-      def checks
-        config['SystemChecks']
-      rescue
-        {}
-      end
-
-      # Runs each command specified and returns the name and exit status
-      def process_checks
-        codes = {}
-        checks.each do |name, command|
-          system("#{command} > /dev/null 2>&1")
-          codes[name] = $CHILD_STATUS.exitstatus
-        end
-        codes
-      end
-
-      # Extract the codes for each check
-      def status_codes
-        process_checks.values.compact
       end
     end # module LocalSystem
   end # module Util

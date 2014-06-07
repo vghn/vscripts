@@ -1,22 +1,15 @@
-require 'vscripts/aws'
-require 'vscripts/aws/metadata'
-
 module VScripts
   module AWS
-    # EC2 Class smells of :reek:UncommunicativeModuleName
+    # EC2 Module smells of :reek:UncommunicativeModuleName
     # @ec2 smells of :reek:UncommunicativeVariableName
+    # ec2 smells of :reek:UncommunicativeMethodName
 
     # AWS Elastic Compute Cloud
-    class EC2
-      include VScripts::AWS::Metadata
-
+    module EC2
       # Load AWS SDK for EC2
-      def initialize
-        @ec2 ||= ::AWS::EC2.new(region: region)
+      def ec2
+        ::AWS::EC2.new(region: region)
       end
-
-      # @return [AWS::EC2]
-      attr_reader :ec2
 
       # Get instance object
       def instance
@@ -42,7 +35,8 @@ module VScripts
       # Get a list of tags
       def tags_without(list = [])
         all_tags.each_with_object({}) do |tag, hash|
-          hash[tag[0]] = tag[1] unless list.include? tag[0]
+          key, value = tag[0], tag[1]
+          hash[key] = value unless list.include? key
           hash
         end
       end
@@ -74,6 +68,6 @@ module VScripts
           functional_instance.tags['Name']
         end
       end
-    end # class EC2
+    end # module EC2
   end # module Amazon
 end # module VScripts

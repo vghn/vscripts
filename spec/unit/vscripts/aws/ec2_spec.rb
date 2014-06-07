@@ -1,9 +1,10 @@
 require 'spec_helper'
 require 'aws_spec_helper'
-require 'vscripts/aws/ec2'
+require 'vscripts/aws'
 
 describe VScripts::AWS::EC2 do
-  let(:ec2) { VScripts::AWS::EC2 }
+  subject { Object.new.extend VScripts::AWS }
+
   let(:tags) { {'Name' => 'test'} }
   let(:fake_instances) {::AWS::Core::Data.new([
     {id: '1111', status: :running},
@@ -12,19 +13,19 @@ describe VScripts::AWS::EC2 do
   ])}
 
   before :each do
-    allow_any_instance_of(ec2).to receive(:check_instance).and_return(true)
-    allow_any_instance_of(ec2).to receive(:instance_id).and_return(fake_instances[0].id)
-    allow_any_instance_of(ec2).to receive(:region).and_return('us-east-1')
+    allow(subject).to receive(:check_instance).and_return(true)
+    allow(subject).to receive(:instance_id).and_return(fake_instances[0].id)
+    allow(subject).to receive(:region).and_return('us-east-1')
   end
 
-  describe '#instance' do
+  describe '#ec2' do
     it 'returns AWS::EC2' do
       expect(subject.ec2).to be_an_instance_of ::AWS::EC2
     end
   end
 
-  describe '#new' do
-    it 'returns AWS::EC2::Instance' do
+  describe '#instance' do
+    it 'returns AWS::EC2' do
       expect(subject.instance).to be_an_instance_of ::AWS::EC2::Instance
       expect(subject.instance.id).to eq(fake_instances[0].id)
     end

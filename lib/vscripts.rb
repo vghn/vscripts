@@ -1,4 +1,4 @@
-require 'vscripts/command'
+require 'vscripts/commands'
 require 'vscripts/command_line'
 
 # Main VScripts module

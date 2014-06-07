@@ -1,15 +1,13 @@
-require 'trollop'
-require 'vscripts/aws/ec2'
-require 'vscripts/util/local_system'
+require 'vscripts/aws'
+require 'vscripts/util'
 
 module VScripts
   # Commands module
   module Commands
-    # @ec2 smells of :reek:UncommunicativeVariableName
-
     # Identify Class
     class Identify # rubocop:disable ClassLength
-      include VScripts::Util::LocalSystem
+      include VScripts::AWS
+      include VScripts::Util
 
       # HELP
       USAGE = <<-EOS
@@ -42,8 +40,6 @@ associated with the current instance.
     Options:
       EOS
 
-      # @return [AWS::EC2] EC2 SDK
-      attr_reader :ec2
       # @return [String] Theme string
       attr_reader :theme
       # @return [String] Host name
@@ -78,12 +74,6 @@ associated with the current instance.
         @cli ||= Trollop.with_standard_exception_handling parser do
           parser.parse arguments
         end
-      end
-
-      # Loads AWS::EC2
-      # This method smells of :reek:UncommunicativeMethodName but ignores it
-      def ec2
-        @ec2 ||= VScripts::AWS::EC2.new
       end
 
       # @return [Array] Splits theme into elements
