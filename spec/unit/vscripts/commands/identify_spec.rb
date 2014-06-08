@@ -3,8 +3,8 @@ require 'vscripts/commands/identify'
 
 describe VScripts::Commands::Identify do
   before :each do
-    allow(subject).to receive_message_chain('ec2.tag').and_return('TestTag')
-    allow(subject).to receive_message_chain('ec2.similar_instances')
+    allow(subject).to receive(:tag).and_return('TestTag')
+    allow(subject).to receive(:similar_instances)
       .and_return(['TestTag-TestTag-1.'])
   end
 
@@ -23,8 +23,8 @@ describe VScripts::Commands::Identify do
 
     context 'when theme is passed' do
       it 'returns the theme' do
-        subject = VScripts::Commands::Identify.new(['--ec2-tag-theme=test'])
-        expect(subject.theme).to eq('test')
+        subject1 = VScripts::Commands::Identify.new(['--ec2-tag-theme=test'])
+        expect(subject1.theme).to eq('test')
       end
     end
 
@@ -36,8 +36,8 @@ describe VScripts::Commands::Identify do
 
     context 'when host is passed' do
       it 'returns the host' do
-        subject1 = VScripts::Commands::Identify.new(['--host=test'])
-        expect(subject1.host).to eq('test')
+        subject2 = VScripts::Commands::Identify.new(['--host=test'])
+        expect(subject2.host).to eq('test')
       end
     end
 
@@ -49,8 +49,8 @@ describe VScripts::Commands::Identify do
 
     context 'when domain is passed' do
       it 'returns the domain' do
-        subject2 = VScripts::Commands::Identify.new(['--domain=test'])
-        expect(subject2.domain).to eq('test')
+        subject3 = VScripts::Commands::Identify.new(['--domain=test'])
+        expect(subject3.domain).to eq('test')
       end
     end
   end
@@ -100,8 +100,8 @@ describe VScripts::Commands::Identify do
 
     context 'when host is passed' do
       it 'returns a string' do
-        subject3 = VScripts::Commands::Identify.new(['--host=test'])
-        expect(subject3.new_hostname).to eq('test')
+        subject4 = VScripts::Commands::Identify.new(['--host=test'])
+        expect(subject4.new_hostname).to eq('test')
       end
     end
   end
@@ -110,7 +110,7 @@ describe VScripts::Commands::Identify do
     context 'when domain is not passed' do
       context 'when tag is not present' do
         it 'returns a String' do
-          allow(subject).to receive_message_chain('ec2.tag')
+          allow(subject).to receive(:tag)
           allow(subject).to receive(:local_domain_name).and_return('local')
           expect(subject.new_domain).to eq('local')
         end
@@ -118,7 +118,7 @@ describe VScripts::Commands::Identify do
 
       context 'when tag is present' do
         it 'returns a String' do
-          allow(subject).to receive_message_chain('ec2.tag')
+          allow(subject).to receive(:tag)
             .and_return('Test')
           expect(subject.new_domain).to eq('Test')
         end
@@ -127,8 +127,8 @@ describe VScripts::Commands::Identify do
 
     context 'when domain is passed' do
       it 'returns a string' do
-        subject4 = VScripts::Commands::Identify.new(['--domain=test'])
-        expect(subject4.new_domain).to eq('test')
+        subject5 = VScripts::Commands::Identify.new(['--domain=test'])
+        expect(subject5.new_domain).to eq('test')
       end
     end
   end
@@ -141,10 +141,8 @@ describe VScripts::Commands::Identify do
 
   describe '#set_name_tag' do
     it 'returns a string' do
-      allow(subject).to receive_message_chain('ec2.create_tag')
-        .and_return(true)
-      allow(subject).to receive_message_chain('ec2.instance')
-        .and_return(true)
+      allow(subject).to receive(:create_tag).and_return(true)
+      allow(subject).to receive(:instance).and_return(true)
       allow(subject).to receive(:puts)
       expect(subject.set_name_tag).to be true
     end

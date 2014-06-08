@@ -84,7 +84,7 @@ associated with the current instance.
       # @return [Array] An array of values for each tag specified in the theme
       def map2tags
         theme_elements.map do |element|
-          element == '#' ? element : ec2.tag(element)
+          element == '#' ? element : tag(element)
         end
       end
 
@@ -96,7 +96,7 @@ associated with the current instance.
       # @return [String] The incremented host name
       def incremented_hostname
         number = 1
-        while ec2.similar_instances.include? "#{themed_host_name}.#{domain}"
+        while similar_instances.include? "#{themed_host_name}.#{domain}"
           .sub(/#/, "#{number}")
           number += 1
         end
@@ -111,7 +111,7 @@ associated with the current instance.
       # @return [String] The value of the command line --domain argument, or the
       #   value of the 'Domain' EC2 tag or the local domain name.
       def new_domain
-        domain || ec2.tag('Domain') || local_domain_name
+        domain || tag('Domain') || local_domain_name
       end
 
       # @return [String] The fully qualified domain name
@@ -121,9 +121,9 @@ associated with the current instance.
 
       # Modify the 'Name' tag
       def set_name_tag
-        return if ec2.tag('Name') == new_fqdn
+        return if tag('Name') == new_fqdn
         puts "Setting name tag to \"#{new_fqdn}\"..."
-        ec2.create_tag(ec2.instance, 'Name', value: new_fqdn)
+        create_tag(instance, 'Name', value: new_fqdn)
       end
 
       # Modify the host name
