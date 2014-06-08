@@ -4,35 +4,43 @@ module VScripts
     # @ec2 smells of :reek:UncommunicativeVariableName
     # ec2 smells of :reek:UncommunicativeMethodName
 
-    # AWS Elastic Compute Cloud
+    # A collection of methods used for interaction with Amazon Web Service
+    # Elastic Compute Cloud.
     module EC2
-      # Load AWS SDK for EC2
+      # Loads AWS SDK for EC2
       def ec2
         ::AWS::EC2.new(region: region)
       end
 
-      # Get instance object
+      # @return [AWS::EC2::Instance] the current instance
       def instance
         check_instance
         ec2.instances[instance_id]
       end
 
-      # @return [AWS::EC2::ResourceTagCollection] Tags collection
+      # @return [AWS::EC2::ResourceTagCollection] all tags
       def all_tags
         instance.tags
       end
 
-      # @return [AWS::EC2::ResourceTagCollection] Tags collection
+      # @param key [String] the key
+      # @return [AWS::EC2::Tag] the value of the tag
       def tag(key)
         instance.tags[key]
       end
 
-      # @return [AWS::EC2::Tag] Creates an EC2 Tag
+      # Creates an EC2 Tag
+      # @param resource [String] the id of the resource
+      # @param key [String] the key of the tag
+      # @param value [String] the value of the tag
+      # @return [AWS::EC2::Tag] the new tag
       def create_tag(resource, key, value)
         ec2.tags.create(resource, key, value)
       end
 
-      # Get a list of tags
+      # Exclude tags
+      # @param list [Array] the list of tag keys to be excluded
+      # @return [Hash] the filtered tags
       def tags_without(list = [])
         all_tags.each_with_object({}) do |tag, hash|
           key, value = tag[0], tag[1]
@@ -42,17 +50,17 @@ module VScripts
       end
 
       # Looks for the value of the 'Name' tag for the given instance
+      # @return [String] the name value
       def name
         all_tags_hash['Name']
       end
 
-      # @return[AWS::EC2::InstanceCollection] Lists instances that have a
-      # 'Name' tag
+      # @return [AWS::EC2::InstanceCollection] the value of the name tag
       def named_instances
         ec2.instances.tagged('Name')
       end
 
-      # @return[Array] Lists instances that are not terminated
+      # @return [AWS::EC2::InstanceCollection] instances that are not terminated
       def functional_instances
         named_instances.map do |named_instance|
           named_instance if [:running, :shutting_down, :stopping, :stopped]
@@ -60,7 +68,8 @@ module VScripts
         end
       end
 
-      # @return[Array] The 'Name' tag value except the local instance
+      # @return [AWS::EC2::InstanceCollection] running instances that have
+      #   a Name tag
       def similar_instances
         check_instance
         functional_instances.map do |functional_instance|

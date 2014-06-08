@@ -1,33 +1,33 @@
 module VScripts
   module Util
-    # Local system functions library
+    # Local system functions library.
     module LocalSystem
-      # Hosts file path
+      # @return [String] the hosts file path
       def hosts_path
         '/etc/hosts'
       end
 
-      # @return[String] The contents of the hosts file
+      # @return [String] the contents of the hosts file
       def hosts_file
         File.read(hosts_path)
       end
 
-      # Hostname file path
+      # @return [String] the hostname file path
       def hostname_path
         '/etc/hostname'
       end
 
-      # Returns the current fully qualified domain
+      # @return [String] the local fully qualified domain
       def local_fqdn
         `hostname -f`.strip
       end
 
-      # Returns the local host name
+      # @return [String] the local host name
       def local_host_name
         `hostname`.strip
       end
 
-      # Returns the local domain name
+      # @return [String] the local domain name
       def local_domain_name
         `dnsdomainname`.strip
       rescue
@@ -35,6 +35,7 @@ module VScripts
       end
 
       # Tries to get the reverse dns
+      # @return [String] the reverse dns
       def external_dns
         ext_ip = `wget -q -O - checkip.dyndns.org \
           | sed -e 's/[^[:digit:]|.]//g'`
@@ -44,12 +45,15 @@ module VScripts
       end
 
       # Creates the directory for the specified file
+      # @param file [String] the path of the file
       def ensure_file_dir(file)
         path = File.dirname(file)
         `mkdir -p #{path}`
       end
 
-      # Writes to file
+      # Writes to a file
+      # @param file [String] the path of the file
+      # @param body [String] the body of the file
       def write_file(file, body)
         ensure_file_dir(file)
         File.open(file, 'w') do |newfile|
@@ -60,6 +64,8 @@ module VScripts
       end
 
       # Ensures the specified file has the specified content
+      # @param file [String] the path of the file
+      # @param body [String] the body of the file
       def ensure_file_content(file, body)
         write = write_file(file, body)
         read  = IO.read(file)

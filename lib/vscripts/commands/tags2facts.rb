@@ -9,7 +9,7 @@ module VScripts
       include VScripts::AWS
       include VScripts::Util
 
-      # HELP
+      # Shows help
       USAGE = <<-EOS
 
   This command can only be run on an AWS EC2 instance. It looks for all tags
@@ -27,9 +27,11 @@ module VScripts
   Options:
       EOS
 
-      # @return [Array] Command specific arguments
+      # @return [Array] the command specific arguments
       attr_reader :arguments
 
+      # Loads the Tags2Facts class
+      # @param argv [Array] the command specific arguments
       def initialize(argv = [])
         @arguments ||= argv
       end
@@ -45,19 +47,19 @@ module VScripts
         end
       end
 
-      # Parses command line arguments
+      # @return [Hash] the command line arguments
       def cli
         @cli ||= Trollop.with_standard_exception_handling parser do
           parser.parse arguments
         end
       end
 
-      # @return [Array] A list of tags to be excluded
+      # @return [Array] the tags to exclude
       def exclude_list
         cli.all ? [] : %w(Name Domain)
       end
 
-      # @return [JSON] Formatted JSON
+      # @return [JSON] the formatted JSON string
       def tags_json
         filtered = tags_without(exclude_list)
         if filtered.empty?
@@ -67,7 +69,7 @@ module VScripts
         end
       end
 
-      # Writes the formatted JSON to a file
+      # Writes the formatted JSON to the file
       def execute
         file = cli.file
         puts "Writing tags to \"#{file}\""

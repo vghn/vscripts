@@ -5,7 +5,7 @@ require 'English'
 require 'vscripts/util/local_system'
 
 module VScripts
-  # Amazon Web Services Module
+  # A collection of methods used for interaction with the local system.
   module Util
     include VScripts::Util::LocalSystem
   end # module AWS

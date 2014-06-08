@@ -4,34 +4,39 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'vscripts/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'vscripts'
-  spec.version       = VScripts::VERSION
-  spec.authors       = ['Vlad Ghinea']
-  spec.email         = ['vlad@ghn.me']
-  spec.description   = %q{VladGh.com's automation scripts}
-  spec.summary       = %q{VladGh.com's automation scripts}
-  spec.homepage      = 'https://github.com/vghn/vscripts'
-  spec.license       = 'Apache 2.0'
+  spec.name        = 'vscripts'
+  spec.version     = VScripts::VERSION
+  spec.authors     = ['Vlad Ghinea']
+  spec.email       = ['vlad@ghn.me']
+  spec.summary     = %q{VladGh.com's automation scripts}
+  spec.description = <<-EOF
+VScripts is a command line utility that performs a series of tasks used on
+VladGh.com's deployment.
+EOF
+  spec.homepage    = 'https://github.com/vghn/vscripts'
+  spec.license     = 'Apache 2.0'
+
+  spec.metadata = {
+    'issue_tracker' => 'https://github.com/vghn/vscripts/issues'
+  }
 
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
-  spec.add_runtime_dependency 'aws-sdk'
-  spec.add_runtime_dependency 'unicorn'
-  spec.add_runtime_dependency 'sinatra'
-  spec.add_runtime_dependency 'trollop'
-  spec.add_runtime_dependency 'rake'
+  spec.required_ruby_version = '>= 1.9.3'
 
-  spec.add_development_dependency 'bundler'
-  spec.add_development_dependency 'rack'
-  spec.add_development_dependency 'rack-test'
+  spec.add_runtime_dependency 'aws-sdk', '~> 1.0'
+  spec.add_runtime_dependency 'trollop', '~> 2.0'
+
+  spec.add_development_dependency 'rake', '~> 10.0'
+  spec.add_development_dependency 'bundler', '~> 1.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
-  spec.add_development_dependency 'yard'
-  spec.add_development_dependency 'reek'
-  spec.add_development_dependency 'rubocop'
-  spec.add_development_dependency 'coveralls'
-  spec.add_development_dependency 'fpm'
-  spec.add_development_dependency 'travis', '~> 1.6.11'
+  spec.add_development_dependency 'yard', '~> 0.0'
+  spec.add_development_dependency 'reek', '~> 1.0'
+  spec.add_development_dependency 'rubocop', '~> 0.0'
+  spec.add_development_dependency 'coveralls', '~> 0.0'
+  spec.add_development_dependency 'fpm', '~> 1.0'
+  spec.add_development_dependency 'travis', '~> 1.0'
 end

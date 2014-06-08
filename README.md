@@ -3,14 +3,13 @@
   [![Code Climate](https://codeclimate.com/github/vghn/vscripts.png)](https://codeclimate.com/github/vghn/vscripts)
   [![Gem Version](https://badge.fury.io/rb/vscripts.svg)](http://badge.fury.io/rb/vscripts)
   [![Coverage Status](https://coveralls.io/repos/vghn/vscripts/badge.png)](https://coveralls.io/r/vghn/vscripts)
+  [![Dependency Status](https://gemnasium.com/vghn/vscripts.svg)](https://gemnasium.com/vghn/vscripts)
 
 Automation daemon.
 
 ## Dependencies
 - Ruby >= 1.9.3
-- An AWS account (you'll need to create):
-  - A SNS Queue (optional, will attempt to create if can't be found)
-  - A Route53 zone.
+- An AWS account (you'll need to create)
 
 ## Installing
 
@@ -27,8 +26,8 @@ vscripts GLOBAL-OPTIONS COMMAND OPTIONS
 
 ### Global Options
 ```
-  -h|--help: Displays VScripts help.
-  -v|--version: Displays the version number.
+-h|--help: Displays VScripts help.
+-v|--version: Displays the version number.
 ```
 
 
@@ -43,15 +42,17 @@ The `Name` and `Domain` tags are excluded by default because this command is
 intended to add Facter facts and these 2 already exist in Facter. This behaviour
 can be overridden by adding `[-a|--all]` command line option.
 
-    > **Options**:
+    **Options**:
+
     ```
---file, -f <s>: The file that will store the tags (default:
-                /etc/facter/facts.d/ec2_tags.json)
---all,  -a: Collect all tags
---help, -h: Shows help
+    --file, -f <s>: The file that will store the tags (default:
+                    /etc/facter/facts.d/ec2_tags.json)
+    --all,  -a: Collect all tags
+    --help, -h: Shows help
     ```
 
-    > **EXAMPLES**:
+    **Examples**:
+
     ```
     $ vscripts tags2facts
     $ vscripts tags2facts --file /tmp/my_tags.json --all
@@ -77,15 +78,17 @@ associated with the current instance.
     If a ***--domain*** argument is provided it will override the default
     domain.
 
-    > Options:
-    > ```
+    **Options**:
+
+    ```
     --ec2-tag-theme, -e <s>: Theme (default: Group-Role-#)
     --host, -n <s>: Host name
     --domain, -d <s>: Domain
     --help, -h: Shows help
     ```
 
-    > EXAMPLES:
+    **Examples**:
+
     ```
     $ vscripts identify
     MyGroup-MyRole-1.Example.tld

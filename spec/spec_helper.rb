@@ -23,5 +23,9 @@ RSpec.configure {|config|
   config.formatter = :documentation # :progress, :html, :textmate
 
   # Clean up
-  config.after(:suite) { `ls /tmp/vscripts-test-* &> /dev/null && rm -r /tmp/vscripts-test-*` }
+  config.after(:suite) {
+    unless ENV['TRAVIS']
+      `ls /tmp/vscripts-test-* &> /dev/null && rm -r /tmp/vscripts-test-*`
+    end
+  }
 }

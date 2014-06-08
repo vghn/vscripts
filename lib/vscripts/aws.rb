@@ -6,7 +6,7 @@ require 'vscripts/aws/ec2'
 require 'vscripts/aws/metadata'
 
 module VScripts
-  # Amazon Web Services Module
+  # A collection of methods used for interaction with Amazon Web Services
   module AWS
     ::AWS.config
     include VScripts::AWS::EC2

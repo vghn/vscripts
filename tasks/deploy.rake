@@ -106,6 +106,7 @@ def merge_changes
   switch_to_branch('master')
   puts "Merging \"#{DEV_BRANCH}\" branch"
   abort 'ERROR: Conflicts found; Stopping!' if merge =~ /conflict/i
+  switch_to_branch(branch) # Switch back to whatever branch was before
 end
 
 def push_release

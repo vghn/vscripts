@@ -1,18 +1,17 @@
 require 'trollop'
-require 'vscripts/version'
 require 'vscripts/commands'
 
 module VScripts
-  # Global Command Line
+  # Parses the command line arguments
   class CommandLine
-    # @return [Array] All the command line arguments
+    # @return [Array] all command line arguments
     attr_accessor :arguments
-    # @return [Hash] Global command line arguments
+    # @return [Hash] the global command line arguments.
     attr_reader :global
-    # @return [String] Command name
+    # @return [String] the command name
     attr_reader :command
 
-    # Build command line arguments
+    # Builds command line arguments
     def initialize(argv = [])
       @arguments ||= argv
       @global    ||= parse_cli_options
@@ -44,7 +43,7 @@ EOS
       end
     end
 
-    # Parses command line arguments
+    # @return [Hash] the command line arguments
     def parse_cli_options
       Trollop.with_standard_exception_handling parser do
         fail Trollop::HelpNeeded if arguments.empty?
@@ -52,8 +51,8 @@ EOS
       end
     end
 
-    # Ensure command is available
-    # @return [String] Command name
+    # Ensures command is available
+    # @return [String] the command name
     def verify_command
       command_cli = arguments.shift
       command_cls = command_cli.capitalize.to_sym
