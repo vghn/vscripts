@@ -9,7 +9,7 @@ module VScripts
       include VScripts::AWS
       include VScripts::Util
 
-      # HELP
+      # Shows help
       USAGE = <<-EOS
 This command creates a themed host name and fully qualified domain name for
 the server, using AWS EC2 tags. The default theme is `Group-Role-#` which means
@@ -40,15 +40,17 @@ associated with the current instance.
     Options:
       EOS
 
-      # @return [String] Theme string
+      # @return [String] the theme
       attr_reader :theme
-      # @return [String] Host name
+      # @return [String] the host name
       attr_reader :host
-      # @return [String] Domain name
+      # @return [String] the domain name
       attr_reader :domain
-      # @return [Array] Command specific arguments
+      # @return [Array] the command specific arguments
       attr_reader :arguments
 
+      # Loads the Identify command
+      # @param argv [Array] the command specific arguments
       def initialize(argv = [])
         @arguments ||= argv
         @theme     ||= cli.ec2_tag_theme
@@ -69,31 +71,35 @@ associated with the current instance.
         end
       end
 
-      # Parses command line arguments
+      # @return [Hash] the command line arguments
       def cli
         @cli ||= Trollop.with_standard_exception_handling parser do
           parser.parse arguments
         end
       end
 
-      # @return [Array] Splits theme into elements
+      # Splits theme into elements
+      # @return [Array] the theme elements
       def theme_elements
         theme.split('-')
       end
 
-      # @return [Array] An array of values for each tag specified in the theme
+      # Lists values corresponding to each tag specified in the theme
+      # @return [Array] the values list
       def map2tags
         theme_elements.map do |element|
           element == '#' ? element : tag(element)
         end
       end
 
-      # @return [String] Compose host name based on found tags
+      # Composes the host name based on found tags
+      # @return [String] the new host name
       def themed_host_name
         map2tags.compact.join('-')
       end
 
-      # @return [String] The incremented host name
+      # Increments the new hostname if it finds similar ones
+      # @return [String] the incremented host name
       def incremented_hostname
         number = 1
         while similar_instances.include? "#{themed_host_name}.#{domain}"
@@ -103,30 +109,33 @@ associated with the current instance.
         "#{themed_host_name}".sub(/#/, "#{number}")
       end
 
-      # @return [String] The command line --host argument or the themed hostname
+      # The command line `--host` argument, the themed hostname or the existing
+      # local hostname
+      # @return [String] the new hostname
       def new_hostname
         host || incremented_hostname || local_host_name
       end
 
-      # @return [String] The value of the command line --domain argument, or the
-      #   value of the 'Domain' EC2 tag or the local domain name.
+      # The value of the command line `--domain` argument, or the
+      # value of the 'Domain' EC2 tag or the local domain name.
+      # @return [String] the new domain name
       def new_domain
         domain || tag('Domain') || local_domain_name
       end
 
-      # @return [String] The fully qualified domain name
+      # @return [String] the fully qualified domain name
       def new_fqdn
         "#{new_hostname}.#{new_domain}"
       end
 
-      # Modify the 'Name' tag
+      # Modifies the 'Name' tag
       def set_name_tag
         return if tag('Name') == new_fqdn
         puts "Setting name tag to \"#{new_fqdn}\"..."
         create_tag(instance, 'Name', value: new_fqdn)
       end
 
-      # Modify the host name
+      # Modifies the host name
       def set_hostname
         return if File.read(hostname_path).strip == new_hostname
         puts "Setting local hostname (#{new_hostname})..."
@@ -134,7 +143,7 @@ associated with the current instance.
         `hostname -F /etc/hostname`
       end
 
-      # Modify the hosts file
+      # Modifies the hosts file
       def update_hosts
         return if File.readlines(hosts_path)
           .grep(/#{new_fqdn} #{new_hostname}/)
