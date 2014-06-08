@@ -1,3 +1,8 @@
+Version 0.1.3
+---
+  * Upgrade documentation ([Vlad - fd6fb30](https://github.com/vghn/vscripts/commit/fd6fb30af09d4f4050f0b35d41cc3bfb7e534e4a))
+  * Update gem specification ([Vlad - 8c98c07](https://github.com/vghn/vscripts/commit/8c98c070bba9c2cd9c64c7de5568161fa3f3e004))
+
 Version 0.1.2
 ---
   * Revert "Lock gem versions" ([Vlad - 5881199](https://github.com/vghn/vscripts/commit/5881199dd0dd846667c27a4619c01934c66f2c7b))
