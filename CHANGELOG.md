@@ -1,3 +1,7 @@
+Version 0.1.2
+---
+  * Revert "Lock gem versions" ([Vlad - 5881199](https://github.com/vghn/vscripts/commit/5881199dd0dd846667c27a4619c01934c66f2c7b))
+
 Version 0.1.1
 ---
   * Upgrade to RSpec 3 and clean up deprecations ([Vlad Ghinea - c2cf66e](https://github.com/vghn/vscripts/commit/c2cf66efbed7de6e436a74cc4fed46007ef07d5e))
