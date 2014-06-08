@@ -3,6 +3,7 @@
   [![Code Climate](https://codeclimate.com/github/vghn/vscripts.png)](https://codeclimate.com/github/vghn/vscripts)
   [![Gem Version](https://badge.fury.io/rb/vscripts.svg)](http://badge.fury.io/rb/vscripts)
   [![Coverage Status](https://coveralls.io/repos/vghn/vscripts/badge.png)](https://coveralls.io/r/vghn/vscripts)
+  [![Dependency Status](https://gemnasium.com/vghn/vscripts.svg)](https://gemnasium.com/vghn/vscripts)
 
 Automation daemon.
 
