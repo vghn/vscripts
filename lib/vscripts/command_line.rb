@@ -1,6 +1,6 @@
 require 'trollop'
 require 'vscripts/version'
-require 'vscripts/command'
+require 'vscripts/commands'
 
 module VScripts
   # Global Command Line
@@ -23,7 +23,7 @@ module VScripts
     # This method smells of :reek:NestedIterators but ignores them
     # This method smells of :reek:TooManyStatements but ignores them
     def parser # rubocop:disable MethodLength
-      available = Command.list.map { |cmd| cmd.to_s.downcase }
+      available = Commands.list.map { |cmd| cmd.to_s.downcase }
       @parser ||= Trollop::Parser.new do
         version VScripts::VERSION_C
         banner <<-EOS
@@ -57,7 +57,7 @@ EOS
     def verify_command
       command_cli = arguments.shift
       command_cls = command_cli.capitalize.to_sym
-      if Command.list.include?(command_cls)
+      if Commands.list.include?(command_cls)
         return command_cls
       else
         abort "Error: Unknown subcommand '#{command_cli}'\nTry --help."

@@ -1,7 +1,3 @@
-require 'fileutils'
-require 'yaml'
-require 'English'
-
 module VScripts
   module Util
     # Local system functions library
@@ -60,7 +56,7 @@ module VScripts
           newfile.write(body)
         end
       rescue Errno::EACCES
-        puts "FATAL: You need to be root in order to write to #{file}"
+        abort "FATAL: You need to be root in order to write to #{file}"
       end
 
       # Ensures the specified file has the specified content
@@ -68,30 +64,6 @@ module VScripts
         write = write_file(file, body)
         read  = IO.read(file)
         read == body || write
-      rescue
-        write
-      end
-
-      # Gets system checks from environment variables
-      def checks
-        config['SystemChecks']
-      rescue
-        {}
-      end
-
-      # Runs each command specified and returns the name and exit status
-      def process_checks
-        codes = {}
-        checks.each do |name, command|
-          system("#{command} > /dev/null 2>&1")
-          codes[name] = $CHILD_STATUS.exitstatus
-        end
-        codes
-      end
-
-      # Extract the codes for each check
-      def status_codes
-        process_checks.values.compact
       end
     end # module LocalSystem
   end # module Util

@@ -3,7 +3,7 @@ require 'vscripts/commands/identify'
 
 module VScripts
   # Main Command class
-  class Command
+  module Commands
     # Lists the available commands
     # @return [Array]
     def self.list

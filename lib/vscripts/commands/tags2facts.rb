@@ -1,15 +1,13 @@
-require 'trollop'
-require 'vscripts/aws/ec2'
-require 'vscripts/util/local_system'
+require 'vscripts/aws'
+require 'vscripts/util'
 
 module VScripts
   # Commands module
   module Commands
-    # @ec2 smells of :reek:UncommunicativeVariableName
-
     # Tags2Facts Class
     class Tags2facts
-      include VScripts::Util::LocalSystem
+      include VScripts::AWS
+      include VScripts::Util
 
       # HELP
       USAGE = <<-EOS
@@ -31,8 +29,6 @@ module VScripts
 
       # @return [Array] Command specific arguments
       attr_reader :arguments
-      # @return [AWS::EC2] EC2 SDK
-      attr_reader :ec2
 
       def initialize(argv = [])
         @arguments ||= argv
@@ -49,12 +45,6 @@ module VScripts
         end
       end
 
-      # Loads AWS EC2
-      # This method smells of :reek:UncommunicativeMethodName but ignores it
-      def ec2
-        @ec2 ||= VScripts::AWS::EC2.new
-      end
-
       # Parses command line arguments
       def cli
         @cli ||= Trollop.with_standard_exception_handling parser do
@@ -67,21 +57,13 @@ module VScripts
         cli.all ? [] : %w(Name Domain)
       end
 
-      # @return [Hash] Filtered tags
-      def filtered_tags
-        ec2.tags_without(exclude_list).each_with_object({}) do |tag, hash|
-          hash[tag[0]] = tag[1]
-          hash
-        end
-      end
-
       # @return [JSON] Formatted JSON
       def tags_json
-        tags_hash = filtered_tags
-        if tags_hash.empty?
+        filtered = tags_without(exclude_list)
+        if filtered.empty?
           abort 'No tags were found!'
         else
-          JSON.pretty_generate(tags_hash)
+          JSON.pretty_generate(filtered)
         end
       end
 

@@ -3,6 +3,12 @@ LOG_RANGE      = "master...#{DEV_BRANCH}"
 VERSION_FILE   = 'VERSION'
 CHANGELOG_FILE = 'CHANGELOG.md'
 
+desc 'Automated deployment (increment patch)'
+task :deploy do
+  bump_version('patch')
+  deploy
+end
+
 namespace 'deploy' do
   desc 'Automated deployment (increment patch)'
   task :patch do
@@ -25,7 +31,6 @@ def deploy
   commit_changelog
   merge_changes
   push_release
-  package_and_push_gem
 end
 
 def check_branch

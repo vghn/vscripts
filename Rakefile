@@ -14,6 +14,4 @@ require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new
 
 # Default task
-task :default do
-  puts `rake -T`
-end
+task :default => :spec
