@@ -1,3 +1,22 @@
+Version 0.1.1
+---
+  * Upgrade to RSpec 3 and clean up deprecations ([Vlad Ghinea - c2cf66e](https://github.com/vghn/vscripts/commit/c2cf66efbed7de6e436a74cc4fed46007ef07d5e))
+  * Minor updates ([Vlad Ghinea - e045a5f](https://github.com/vghn/vscripts/commit/e045a5fc6f7cd292d17247af92c580810ed98a26))
+  * Add code coverage ([Vlad Ghinea - 1c0d9dd](https://github.com/vghn/vscripts/commit/1c0d9dddb9ab5cb2090ef1bad84654cc4ab72f28))
+  * Add local code coverage files for development ([Vlad Ghinea - 8a52a9b](https://github.com/vghn/vscripts/commit/8a52a9b800d06374c9ee5ee4872b055af6f9a3be))
+  * Run test by default in Rake ([Vlad Ghinea - 3141ec2](https://github.com/vghn/vscripts/commit/3141ec2e4c5befc8ea83dcdd0198ec7fcc1f06e5))
+  * Fix tags exclude list ([Vlad Ghinea - 98ffe4e](https://github.com/vghn/vscripts/commit/98ffe4e6926be6b91230c31cc7ad64c6cdcfab7d))
+  * Fix file creation ([Vlad - b93cf89](https://github.com/vghn/vscripts/commit/b93cf89b3e35eecc0f52f7399065cab4aeff2377))
+  * More tests ([Vlad - 8e8254c](https://github.com/vghn/vscripts/commit/8e8254c74d1fb667ed5cf672fec256c61762d75d))
+  * Better RSpec ([Vlad - 3c4bd75](https://github.com/vghn/vscripts/commit/3c4bd753de4f324aac29ed1d94fdd1ed3a19b6bc))
+  * Reorganize code and better tests ([Vlad - 11b3029](https://github.com/vghn/vscripts/commit/11b30294c6ced697db6c6f9785d0018a47cb7c5c))
+  * Lock gem versions ([Vlad - 6cb0e58](https://github.com/vghn/vscripts/commit/6cb0e58426cc6b2246b8348652aa89366a43ca7d))
+  * Fix identify command ([Vlad - bc173e7](https://github.com/vghn/vscripts/commit/bc173e7bb7da099beea98fbbe008ce8eaf882e87))
+  * Add RubyGems Deployment ([Vlad - 5e004a0](https://github.com/vghn/vscripts/commit/5e004a0b7d099b2399996672a1e13e9df1b91131))
+  * Delegate RubyGems release to Travis ([Vlad - a2d9178](https://github.com/vghn/vscripts/commit/a2d917857f0e03d36a7fc1281bec1be0f3cc1b98))
+  * Extra space ([Vlad - afbd453](https://github.com/vghn/vscripts/commit/afbd4535e462ccb0c2c4db34d10d224fd2007dc4))
+  * Remove Gemfile.lock ([Vlad - aa8c327](https://github.com/vghn/vscripts/commit/aa8c3278d069e69edc8dbefa468d37afbe0c163f))
+
 Version 0.1.0
 ---
   * Domain fallback to local ([Vlad Ghinea - c0d176f](https://github.com/vghn/vscripts/commit/c0d176fe244c10dd8d2b394075d5d6ef1c0ef332))
