@@ -91,7 +91,7 @@ def commit_changelog
 end
 
 def branch
-  @branch ||= `git branch`.match(/^\* (\S+)/)[1]
+  `git branch`.match(/^\* (\S+)/)[1]
 end
 
 def switch_to_branch(name)
@@ -103,10 +103,11 @@ def merge
 end
 
 def merge_changes
+  previous = branch
   switch_to_branch('master')
   puts "Merging \"#{DEV_BRANCH}\" branch"
   abort 'ERROR: Conflicts found; Stopping!' if merge =~ /conflict/i
-  switch_to_branch(branch) # Switch back to whatever branch was before
+  switch_to_branch(previous)
 end
 
 def push_release
