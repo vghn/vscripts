@@ -2,3 +2,11 @@ language: ruby
 rvm:
   - 1.9.3
   - 2.1.2
+deploy:
+  provider: rubygems
+  api_key:
+    secure: fBDuhk/Ip0Cu/rgBxyKaFsVXkPy21pLqckbKm72n7fN1vDg36r468GPPMPzT85szZOZACpVHVk8L9xZ5aWG0So+n5Swt8S5vjEP4wRU024WCCv0Z1FATT+HwrF3cYxW1PKH/VpFEL0UbAsW+7xpM0q4/nmkLk9FSYmXLahXCGqc=
+  gem: vscripts
+  on:
+    tags: true
+    branch: master
