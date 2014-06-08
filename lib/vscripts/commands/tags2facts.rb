@@ -4,7 +4,6 @@ require 'vscripts/util'
 module VScripts
   # Commands module
   module Commands
-
     # Tags2Facts Class
     class Tags2facts
       include VScripts::AWS
