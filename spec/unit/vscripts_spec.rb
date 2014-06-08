@@ -11,7 +11,7 @@ describe VScripts do
     $stdout = STDOUT
   end
 
-  describe '#run' do
+  describe '.run' do
     it 'returns help' do
       expect{subject.run(['-h'])}.to raise_error(SystemExit)
     end
