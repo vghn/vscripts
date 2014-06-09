@@ -12,16 +12,22 @@ describe VScripts do
   end
 
   describe '.run' do
-    it 'returns help' do
-      expect{subject.run(['-h'])}.to raise_error(SystemExit)
+    context 'when \'-h\'' do
+      it 'returns help' do
+        expect{subject.run(['-h'])}.to raise_error(SystemExit)
+      end
     end
 
-    it 'returns version' do
-      expect{subject.run(['-v'])}.to raise_error(SystemExit)
+    context 'when \'-v\'' do
+      it 'returns version' do
+        expect{subject.run(['-v'])}.to raise_error(SystemExit)
+      end
     end
 
-    it 'returns command help' do
-      expect{subject.run([@cmd, '-h'])}.to raise_error(SystemExit)
+    context 'when \'command\' and \'-h\'' do
+      it 'returns command help' do
+        expect{subject.run([@cmd, '-h'])}.to raise_error(SystemExit)
+      end
     end
   end
 end

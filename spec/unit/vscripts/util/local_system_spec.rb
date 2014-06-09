@@ -43,6 +43,8 @@ describe VScripts::Util::LocalSystem do
   describe '#local_domain_name' do
     it 'returns the local domain name' do
       expect(subject.local_domain_name).to be_a String
+      allow(subject).to receive('`').and_raise(StandardError)
+      expect(subject.local_domain_name).to eq('local')
     end
   end
 
