@@ -5,16 +5,16 @@ require 'vscripts/version'
 
 Gem::Specification.new do |spec|
   spec.name        = 'vscripts'
-  spec.version     = VScripts::VERSION
+  spec.version     = VScripts::VERSION::STRING
   spec.authors     = ['Vlad Ghinea']
   spec.email       = ['vlad@ghn.me']
   spec.summary     = %q{VladGh.com's automation scripts}
+  spec.homepage    = 'https://github.com/vghn/vscripts'
+  spec.license     = 'Apache 2.0'
   spec.description = <<-EOF
 VScripts is a command line utility that performs a series of tasks used on
 VladGh.com's deployment.
 EOF
-  spec.homepage    = 'https://github.com/vghn/vscripts'
-  spec.license     = 'Apache 2.0'
 
   spec.metadata = {
     'issue_tracker' => 'https://github.com/vghn/vscripts/issues'

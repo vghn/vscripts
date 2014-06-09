@@ -1,27 +1,32 @@
+require 'vscripts/version'
+
 DEV_BRANCH     = 'development'
 LOG_RANGE      = "master...#{DEV_BRANCH}"
-VERSION_FILE   = 'VERSION'
 CHANGELOG_FILE = 'CHANGELOG.md'
 
 desc 'Automated deployment (increment patch)'
 task :deploy do
-  bump_version('patch')
+  check_branch
+  bump_version
   deploy
 end
 
 namespace 'deploy' do
   desc 'Automated deployment (increment patch)'
   task :patch do
+    check_branch
     bump_version('patch')
     deploy
   end
   desc 'Automated deployment (increment minor)'
   task :minor do
+    check_branch
     bump_version('minor')
     deploy
   end
   desc 'Automated deployment (increment major)'
   task :major do
+    check_branch
     bump_version('major')
     deploy
   end
@@ -43,20 +48,23 @@ def check_branch
 end
 
 def bump_version(type = 'patch')
-  check_branch
-  @version = File.read(VERSION_FILE).strip
-  @version.gsub(/(\d+)\.(\d+)\.(\d+)/) {
-    @major, @minor, @patch = $1.to_i, $2.to_i, $3.to_i
-  }
+  include VScripts::VERSION
   case type
   when 'patch'
-    @new_version = "#{@major}.#{@minor}.#{@patch + 1}"
+    @new_version = "#{MAJOR}.#{MINOR}.#{PATCH + 1}"
   when 'minor'
-    @new_version = "#{@major}.#{@minor + 1}.0"
+    @new_version = "#{MAJOR}.#{MINOR + 1}.0"
   when 'major'
-    @new_version = "#{@major + 1}.0.0"
+    @new_version = "#{MAJOR + 1}.0.0"
   end
-  File.write('VERSION', @new_version)
+  write_bumped_version
+end
+
+def write_bumped_version
+  version_file = 'lib/vscripts/version.rb'
+  version_content = File.read(version_file)
+  modified = version_content.gsub(/#{VScripts::VERSION::STRING}/, @new_version)
+  File.write(version_file, modified)
 end
 
 def changelog

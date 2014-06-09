@@ -1,4 +1,5 @@
 require 'trollop'
+require 'vscripts/version'
 require 'vscripts/commands'
 
 module VScripts
@@ -24,7 +25,7 @@ module VScripts
     def parser # rubocop:disable MethodLength
       available = Commands.list.map { |cmd| cmd.to_s.downcase }
       @parser ||= Trollop::Parser.new do
-        version VScripts::VERSION_C
+        version VScripts::VERSION::COPYRIGHT
         banner <<-EOS
 VScripts automation daemon.
 
