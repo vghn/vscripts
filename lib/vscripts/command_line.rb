@@ -60,7 +60,7 @@ EOS
       if Commands.list.include?(command_cls)
         return command_cls
       else
-        abort "Error: Unknown subcommand '#{command_cli}'\nTry --help."
+        abort "Error: unknown subcommand '#{command_cli}'\nTry --help."
       end
     end
   end # class CommandLine

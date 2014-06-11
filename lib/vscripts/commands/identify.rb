@@ -11,6 +11,7 @@ module VScripts
 
       # Shows help
       USAGE = <<-EOS
+
 This command creates a themed host name and fully qualified domain name for
 the server, using AWS EC2 tags. The default theme is `Group-Role-#` which means
 that the command collects the value of the `Group` and the `Role` AWS EC2 tags
@@ -24,20 +25,20 @@ Once a new host name is composed, both `/etc/hostname` and `/etc/hosts` are
 modified on the local instance and a new `Name` EC2 tag is created and
 associated with the current instance.
 
-    If a ***--host*** argument is provided it will override the default theme.
-    *DOMAIN* is still looked up.
-    If a ***--domain*** argument is provided it will override the default
-    domain.
+If a ***--host*** argument is provided it will override the default theme.
+*DOMAIN* is still looked up.
+If a ***--domain*** argument is provided it will override the default
+domain.
 
-    EXAMPLES:
-    $ vscripts identify
-    MyGroup-MyRole-1.Example.tld
-    $ vscripts identify --ec2-tag-theme NAME-#
-    MyName-1.Example.tld`
-    $ vscripts identify --host myhost --domain example.com
-    myhost.example.com`
+  USAGE:
+  $ vscripts identify
+  MyGroup-MyRole-1.Example.tld
+  $ vscripts identify --ec2-tag-theme NAME-#
+  MyName-1.Example.tld`
+  $ vscripts identify --host myhost --domain example.com
+  myhost.example.com`
 
-    Options:
+  OPTIONS:
       EOS
 
       # @return [String] the theme
@@ -137,6 +138,7 @@ associated with the current instance.
 
       # Modifies the host name
       def set_hostname
+        return unless File.exist?(hostname_path)
         return if File.read(hostname_path).strip == new_hostname
         puts "Setting local hostname (#{new_hostname})..."
         write_file(hostname_path, new_hostname)
@@ -145,10 +147,11 @@ associated with the current instance.
 
       # Modifies the hosts file
       def update_hosts
+        return unless File.exist?(hosts_path)
         return if File.readlines(hosts_path)
           .grep(/#{new_fqdn} #{new_hostname}/)
           .any?
-        hosts_body = hosts_file.gsub(
+        hosts_body = File.read(hosts_path).gsub(
           /^127\.0\.0\.1.*/,
           "127\.0\.0\.1 #{new_fqdn} #{new_hostname} localhost"
         )
@@ -158,9 +161,9 @@ associated with the current instance.
 
       # Executes the command
       def execute
-        set_name_tag
-        set_hostname
-        update_hosts
+        puts 'EC2 tag not changed!' unless set_name_tag
+        puts 'Hostname not changed!' unless set_hostname
+        puts 'Hosts file not changed!' unless update_hosts
         puts 'Done.'
       end
     end # class Identify
