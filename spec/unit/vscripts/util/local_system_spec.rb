@@ -5,9 +5,7 @@ require 'vscripts/util'
 describe VScripts::Util::LocalSystem do
   subject { Object.new.extend VScripts::Util }
 
-  let(:test_dir) { Dir::Tmpname.make_tmpname('/tmp/vscripts-test-', nil) }
-  let(:test_file) { "#{test_dir}/test_file" }
-  let(:test_cont) { 'testing content' }
+  include_context 'Temporary'
 
   describe '#hosts_path' do
     it 'returns the path to hosts file' do
@@ -18,13 +16,6 @@ describe VScripts::Util::LocalSystem do
   describe '#hostname_path' do
     it 'returns the path to the hostname file' do
       expect(subject.hostname_path).to be_a String
-    end
-  end
-
-  describe '#hosts_file' do
-    it 'returns the an array' do
-      allow(File).to receive(:read).and_return(test_cont)
-      expect(subject.hosts_file).to be_a String
     end
   end
 
@@ -59,7 +50,7 @@ describe VScripts::Util::LocalSystem do
 
   describe '#ensure_file_dir' do
     it 'create a directory for the specified files' do
-      subject.ensure_file_dir(test_file)
+      subject.ensure_file_dir(test_missing_file)
       expect(Dir.exists?(test_dir)).to be true
     end
   end

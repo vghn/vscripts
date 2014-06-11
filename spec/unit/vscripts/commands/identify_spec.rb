@@ -171,8 +171,8 @@ describe VScripts::Commands::Identify do
       allow(subject).to receive(:set_name_tag)
       allow(subject).to receive(:set_hostname)
       allow(subject).to receive(:update_hosts)
-      expect(STDOUT).to receive(:puts).with('Done.')
-      subject.execute
+      allow(STDOUT).to receive(:puts)
+      expect(subject.execute).to be_nil
     end
   end
 end
