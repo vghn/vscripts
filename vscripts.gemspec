@@ -16,9 +16,11 @@ VScripts is a command line utility that performs a series of tasks used on
 VladGh.com's deployment.
 EOF
 
-  spec.metadata = {
-    'issue_tracker' => 'https://github.com/vghn/vscripts/issues'
-  }
+  if spec.respond_to?(:metadata=)
+    spec.metadata = {
+      'issue_tracker' => 'https://github.com/vghn/vscripts/issues'
+    }
+  end
 
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
