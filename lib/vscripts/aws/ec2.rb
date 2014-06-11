@@ -72,7 +72,7 @@ module VScripts
       #   a Name tag
       def similar_instances
         check_instance
-        functional_instances.map do |functional_instance|
+        functional_instances.compact.map do |functional_instance|
           next if functional_instance.id == instance_id
           functional_instance.tags['Name']
         end

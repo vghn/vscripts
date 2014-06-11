@@ -12,19 +12,19 @@ module VScripts
       # Shows help
       USAGE = <<-EOS
 
-  This command can only be run on an AWS EC2 instance. It looks for all tags
-  associated with it and dumps them in a JSON file. By default this file is
-  `/etc/facter/facts.d/ec2_tags.json`. It can be overridden with the
-  ***`--file`*** argument.
+This command can only be run on an AWS EC2 instance. It looks for all tags
+associated with it and dumps them in a JSON file. By default this file is
+`/etc/facter/facts.d/ec2_tags.json`. It can be overridden with the
+***`--file`*** argument.
 
-  The `Name` and `Domain` tags are excluded by default because this command is
-  intended to add Facter facts and these 2 already exist in Facter. This
-  behaviour can be overridden by adding `[-a|--all]` command line option.
+The `Name` and `Domain` tags are excluded by default because this command is
+intended to add Facter facts and these 2 already exist in Facter. This
+behaviour can be overridden by adding `[-a|--all]` command line option.
 
-  Usage:
-       $ vscripts tags2facts [options]
+  USAGE:
+    vscripts tags2facts [options]
 
-  Options:
+  OPTIONS:
       EOS
 
       # @return [Array] the command specific arguments

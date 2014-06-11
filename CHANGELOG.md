@@ -1,3 +1,14 @@
+Version 0.1.4
+---
+  * Switch back to previous branch on deployment ([Vlad - 244ac9a](https://github.com/vghn/vscripts/commit/244ac9a6d810abd63a625c88bc0a2efac19a9993))
+  * Respect RSpec convention for class methods ([Vlad - 35130ef](https://github.com/vghn/vscripts/commit/35130efd5b21cc18335efb1d620e3412e1d57963))
+  * Add LICENSE and CHANGELOG to the README ([Vlad - 4616bf9](https://github.com/vghn/vscripts/commit/4616bf984d4b77718505595651fa62532ecf8a67))
+  * Improve versioning ([Vlad - 0f52286](https://github.com/vghn/vscripts/commit/0f52286d344fa2d46e41e96f693c989b4367f822))
+  * Minor changes ([Vlad - a32dbcc](https://github.com/vghn/vscripts/commit/a32dbcc70be3043e12624a83d5e25aa1a0ffd405))
+  * Minor code changes ([Vlad - 8821acd](https://github.com/vghn/vscripts/commit/8821acd570fb9058feefe8eacf9212ef9d5c4a39))
+  * Add integration testing ([Vlad - a875320](https://github.com/vghn/vscripts/commit/a875320b65c94cb84304136a0b2967e744098207))
+  * Metadata only since rubygems 2.0 ([Vlad - ab5264b](https://github.com/vghn/vscripts/commit/ab5264b8a3bd93c325f99eae6473a89ebdfa71e9))
+
 Version 0.1.3
 ---
   * Upgrade documentation ([Vlad - fd6fb30](https://github.com/vghn/vscripts/commit/fd6fb30af09d4f4050f0b35d41cc3bfb7e534e4a))

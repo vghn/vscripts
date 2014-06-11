@@ -7,11 +7,6 @@ module VScripts
         '/etc/hosts'
       end
 
-      # @return [String] the contents of the hosts file
-      def hosts_file
-        File.read(hosts_path)
-      end
-
       # @return [String] the hostname file path
       def hostname_path
         '/etc/hostname'

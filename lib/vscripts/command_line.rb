@@ -1,4 +1,5 @@
 require 'trollop'
+require 'vscripts/version'
 require 'vscripts/commands'
 
 module VScripts
@@ -24,7 +25,7 @@ module VScripts
     def parser # rubocop:disable MethodLength
       available = Commands.list.map { |cmd| cmd.to_s.downcase }
       @parser ||= Trollop::Parser.new do
-        version VScripts::VERSION_C
+        version VScripts::VERSION::COPYRIGHT
         banner <<-EOS
 VScripts automation daemon.
 
@@ -59,7 +60,7 @@ EOS
       if Commands.list.include?(command_cls)
         return command_cls
       else
-        abort "Error: Unknown subcommand '#{command_cli}'\nTry --help."
+        abort "Error: unknown subcommand '#{command_cli}'\nTry --help."
       end
     end
   end # class CommandLine
