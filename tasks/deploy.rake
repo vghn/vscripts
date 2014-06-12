@@ -35,7 +35,6 @@ end
 def deploy
   commit_changelog
   merge_changes
-  push_release
 end
 
 def check_branch
@@ -115,6 +114,7 @@ def merge_changes
   switch_to_branch('master')
   puts "Merging \"#{DEV_BRANCH}\" branch"
   abort 'ERROR: Conflicts found; Stopping!' if merge =~ /conflict/i
+  push_release
   switch_to_branch(previous)
 end
 

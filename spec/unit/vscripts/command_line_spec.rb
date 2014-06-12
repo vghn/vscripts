@@ -13,7 +13,7 @@ describe VScripts::CommandLine do
 
   describe '#global' do
     it 'returns the global options as a Hash' do
-      expect(subject.global).to be_an_instance_of Hash
+      expect(subject.global).to be_a Hash
     end
   end
 

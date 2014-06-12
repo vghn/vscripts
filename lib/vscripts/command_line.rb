@@ -13,10 +13,9 @@ module VScripts
     attr_reader :command
 
     # Builds command line arguments
-    def initialize(argv = [])
+    def initialize(argv = ARGV)
       @arguments ||= argv
       @global    ||= parse_cli_options
-      @command   ||= verify_command
     end
 
     # Specifies command line options
@@ -32,14 +31,17 @@ VScripts automation daemon.
 Available commands:
         #{available}
 
-Usage:
+USAGE:
   vscripts GLOBAL-OPTIONS COMMAND OPTIONS
 
 For help on an individual command:
   vscripts COMMAND --help
 
-Global Options:
+GLOBAL OPTIONS:
 EOS
+        opt :config, 'Specify configuration file',
+            type: :string, short: '-c'
+        stop_on_unknown
         stop_on available
       end
     end
@@ -47,21 +49,21 @@ EOS
     # @return [Hash] the command line arguments
     def parse_cli_options
       Trollop.with_standard_exception_handling parser do
-        fail Trollop::HelpNeeded if arguments.empty?
-        parser.parse arguments
+        @cli_options = parser.parse arguments
+        fail Trollop::HelpNeeded if arguments.empty? || !verify_command
       end
+      @cli_options
     end
 
     # Ensures command is available
     # @return [String] the command name
     def verify_command
       command_cli = arguments.shift
+      return unless command_cli
       command_cls = command_cli.capitalize.to_sym
-      if Commands.list.include?(command_cls)
-        return command_cls
-      else
-        abort "Error: unknown subcommand '#{command_cli}'\nTry --help."
-      end
+      abort "Error: unknown subcommand '#{command_cli}'\nTry --help." \
+        unless Commands.list.include?(command_cls)
+      @command ||= command_cls
     end
   end # class CommandLine
 end # module VScripts

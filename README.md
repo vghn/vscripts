@@ -16,6 +16,12 @@ Automation daemon.
 ### Gem installation
 `gem install vscripts`
 
+## Configuration
+
+VScripts looks for a configuration file in the following locations(in order):
+  - a file specified in the `--config` command line option
+  - `.vscripts.yml` in the $HOME directory
+  - `/etc/vscripts/config.yml`
 
 ## Usage
 
@@ -26,8 +32,9 @@ vscripts GLOBAL-OPTIONS COMMAND OPTIONS
 
 ### Global Options
 ```
--h|--help: Displays VScripts help.
--v|--version: Displays the version number.
+--config,  -c <s>: Specify configuration file
+--help,    -h    : Displays VScripts help
+--version, -v    : Displays the version number
 ```
 
 

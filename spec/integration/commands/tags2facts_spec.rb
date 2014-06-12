@@ -3,12 +3,16 @@ require 'integration/spec_helper'
 describe 'Command: Tags2Facts' do
   include_context 'Suppressed output'
   include_context 'Temporary'
+  include_context 'VScripts'
 
-  subject { VScripts }
+  before(:each) do
+    stub_cli_with('tags2facts')
+  end
 
   context 'when \'--help\'' do
     it 'returns command specific help' do
-      expect{subject.run(['tags2facts', '--help'])}.to raise_error(SystemExit)
+      stub_cli_with('tags2facts --help')
+      expect{subject.run}.to raise_error(SystemExit)
       expect($stdout.string).to match(/USAGE:/)
       expect($stdout.string).to match(/OPTIONS:/)
     end
@@ -16,7 +20,8 @@ describe 'Command: Tags2Facts' do
 
   context 'when unknown argument' do
     it 'returns error with message' do
-      expect{subject.run(['tags2facts', '--xyz'])}.to raise_error(SystemExit)
+      stub_cli_with('tags2facts --xyz')
+      expect{subject.run}.to raise_error(SystemExit)
       expect($stderr.string).to match(/Error: unknown argument/)
     end
   end
@@ -24,7 +29,7 @@ describe 'Command: Tags2Facts' do
   context 'when not an EC2 instance' do
     include_context 'Not an EC2 Instance'
     it 'returns error with message' do
-      expect{subject.run(['tags2facts'])}.to raise_error(SystemExit)
+      expect{subject.run}.to raise_error(SystemExit)
       expect($stderr.string)
         .to match('FATAL: NOT an EC2 instance or could not connect to Metadata')
     end
@@ -34,7 +39,7 @@ describe 'Command: Tags2Facts' do
     context 'without tags' do
       include_context 'EC2 Instance without tags'
       it 'returns error with message' do
-        expect{subject.run(['tags2facts'])}.to raise_error(SystemExit)
+        expect{subject.run}.to raise_error(SystemExit)
         expect($stderr.string).to match(/No tags were found/)
       end
     end
@@ -51,18 +56,18 @@ describe 'Command: Tags2Facts' do
       context '--all specified' do
         include_context 'EC2 Instance with tags'
         it 'creates file' do
-        allow_any_instance_of(VScripts::Commands::Tags2facts)
-          .to receive_message_chain('cli.all').and_return(true)
-          subject.run(['tags2facts', '--all'])
-          expect(IO.read(test_file))
-            .to match(tags['Name'])
+          stub_cli_with('tags2facts --all')
+          allow_any_instance_of(VScripts::Commands::Tags2facts)
+            .to receive_message_chain('cli.all').and_return(true)
+          subject.run
+          expect(IO.read(test_file)).to match(tags['Name'])
         end
       end
 
       context '--all not specified' do
         include_context 'EC2 Instance with tags'
         it 'creates file' do
-          subject.run(['tags2facts'])
+          subject.run
           expect(IO.read(test_file)).to match(tags.keys.last)
         end
       end
@@ -70,7 +75,8 @@ describe 'Command: Tags2Facts' do
       context '--file specified' do
         include_context 'EC2 Instance with tags'
         it 'creates file' do
-          subject.run(['tags2facts', "--file #{test_file}"])
+          stub_cli_with("tags2facts --file #{test_file}")
+          subject.run
           expect(IO.read(test_file)).to match(tags.keys.last)
         end
       end
@@ -78,7 +84,7 @@ describe 'Command: Tags2Facts' do
       context '--file not specified' do
         include_context 'EC2 Instance with tags'
         it 'creates file' do
-          subject.run(['tags2facts'])
+          subject.run
           expect(IO.read(test_file)).to match(tags.keys.last)
         end
       end
