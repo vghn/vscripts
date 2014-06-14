@@ -5,17 +5,17 @@ require 'vscripts/commands'
 module VScripts
   # Parses the command line arguments
   class CommandLine
-    # @return [Array] all command line arguments
-    attr_accessor :arguments
     # @return [Hash] the global command line arguments.
     attr_reader :global
     # @return [String] the command name
     attr_reader :command
+    # @return [Array] the command specific arguments.
+    attr_reader :command_options
 
-    # Builds command line arguments
-    def initialize(argv = ARGV)
-      @arguments ||= argv
-      @global    ||= parse_cli_options
+    # @param args [Array] the command line arguments
+    # @return [Hash] the command line options
+    def initialize(args = ARGV)
+      parse_global(args)
     end
 
     # Specifies command line options
@@ -23,7 +23,7 @@ module VScripts
     # This method smells of :reek:TooManyStatements but ignores them
     def parser # rubocop:disable MethodLength
       available = Commands.list.map { |cmd| cmd.to_s.downcase }
-      @parser ||= Trollop::Parser.new do
+      Trollop::Parser.new do
         version VScripts::VERSION::COPYRIGHT
         banner <<-EOS
 VScripts automation daemon.
@@ -41,29 +41,32 @@ GLOBAL OPTIONS:
 EOS
         opt :config, 'Specify configuration file',
             type: :string, short: '-c'
-        stop_on_unknown
         stop_on available
+        stop_on_unknown
       end
     end
 
-    # @return [Hash] the command line arguments
-    def parse_cli_options
+    # @param args [Array] the command line arguments
+    # @return [Hash] the command line options
+    def parse_global(args)
       Trollop.with_standard_exception_handling parser do
-        @cli_options = parser.parse arguments
-        fail Trollop::HelpNeeded if arguments.empty? || !verify_command
+        @global = parser.parse args
+        fail Trollop::HelpNeeded if args.empty? || !parse_command(args)
       end
-      @cli_options
+      @global
     end
 
     # Ensures command is available
     # @return [String] the command name
-    def verify_command
-      command_cli = arguments.shift
-      return unless command_cli
-      command_cls = command_cli.capitalize.to_sym
-      abort "Error: unknown subcommand '#{command_cli}'\nTry --help." \
-        unless Commands.list.include?(command_cls)
-      @command ||= command_cls
+    # @return [Array] the command specific arguments
+    def parse_command(args)
+      command = args.shift
+      return unless command
+      command_class = command.capitalize.to_sym
+      abort "Error: unknown subcommand '#{command}'\nTry --help." \
+        unless Commands.list.include?(command_class)
+      @command = command_class
+      @command_options = args
     end
   end # class CommandLine
 end # module VScripts

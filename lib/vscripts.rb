@@ -16,6 +16,6 @@ module VScripts
 
   # Reads the arguments and runs the given command
   def self.run
-    VScripts::Commands.const_get(cli.command).new(cli.arguments).execute
+    VScripts::Commands.const_get(cli.command).new(cli.command_options).execute
   end
 end # module VScripts
