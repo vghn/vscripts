@@ -15,6 +15,10 @@ describe VScripts::Commands::Identify do
   end
 
   describe '#new' do
+    it 'returns extra arguments' do
+      expect(subject.arguments).to be_an Array
+    end
+
     context 'when theme is not passed' do
       it 'returns the default theme' do
         expect(subject.theme).to eq('Group-Role-#')
@@ -23,8 +27,8 @@ describe VScripts::Commands::Identify do
 
     context 'when theme is passed' do
       it 'returns the theme' do
-        subject1 = VScripts::Commands::Identify.new(['--ec2-tag-theme=test'])
-        expect(subject1.theme).to eq('test')
+        subject = VScripts::Commands::Identify.new(['--ec2-tag-theme=test'])
+        expect(subject.theme).to eq('test')
       end
     end
 
@@ -36,8 +40,8 @@ describe VScripts::Commands::Identify do
 
     context 'when host is passed' do
       it 'returns the host' do
-        subject2 = VScripts::Commands::Identify.new(['--host=test'])
-        expect(subject2.host).to eq('test')
+        subject = VScripts::Commands::Identify.new(['--host=test'])
+        expect(subject.host).to eq('test')
       end
     end
 
@@ -49,8 +53,8 @@ describe VScripts::Commands::Identify do
 
     context 'when domain is passed' do
       it 'returns the domain' do
-        subject3 = VScripts::Commands::Identify.new(['--domain=test'])
-        expect(subject3.domain).to eq('test')
+        subject = VScripts::Commands::Identify.new(['--domain=test'])
+        expect(subject.domain).to eq('test')
       end
     end
   end
@@ -100,8 +104,8 @@ describe VScripts::Commands::Identify do
 
     context 'when host is passed' do
       it 'returns a string' do
-        subject4 = VScripts::Commands::Identify.new(['--host=test'])
-        expect(subject4.new_hostname).to eq('test')
+        subject = VScripts::Commands::Identify.new(['--host=test'])
+        expect(subject.new_hostname).to eq('test')
       end
     end
   end
@@ -127,8 +131,8 @@ describe VScripts::Commands::Identify do
 
     context 'when domain is passed' do
       it 'returns a string' do
-        subject5 = VScripts::Commands::Identify.new(['--domain=test'])
-        expect(subject5.new_domain).to eq('test')
+        subject = VScripts::Commands::Identify.new(['--domain=test'])
+        expect(subject.new_domain).to eq('test')
       end
     end
   end

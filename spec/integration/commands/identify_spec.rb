@@ -1,47 +1,59 @@
-require 'integration/spec_helper'
+require 'spec_helper'
+require 'vscripts'
 
 describe 'Command: Identify' do
-  include_context 'System files'
+  include_context 'VScripts'
   include_context 'Suppressed output'
+  include_context 'Temporary'
 
-  subject { VScripts }
+  subject { VScripts.run }
+
+  let(:identify)      { VScripts::Commands::Identify }
+  let(:hostname_file) { "#{TEMP_DIR}/test-hostname" }
+  let(:hosts_file)    { "#{TEMP_DIR}/test-hosts" }
 
   before(:each) do
-    allow_any_instance_of(VScripts::Commands::Identify)
-      .to receive('`')
+    allow_any_instance_of(identify)
+      .to receive(:hostname_path).and_return(hostname_file)
+    allow_any_instance_of(identify)
+      .to receive(:hosts_path).and_return(hosts_file)
+    allow_any_instance_of(identify).to receive('`')
   end
 
-  context 'when \'--help\'' do
-    it 'returns command specific help' do
-      expect{subject.run(['identify', '--help'])}.to raise_error(SystemExit)
+  describe 'when \'--help\'' do
+    it 'exits and shows help' do
+      stub_cli_with('identify --help')
+      expect{subject}.to raise_error(SystemExit)
       expect($stdout.string).to match(/USAGE:/)
-      expect($stdout.string).to match(/OPTIONS:/)
     end
   end
 
   context 'when unknown argument' do
     it 'returns error with message' do
-      expect{subject.run(['identify', '--xyz'])}.to raise_error(SystemExit)
+      stub_cli_with('identify --xyz')
+      expect{subject}.to raise_error(SystemExit)
       expect($stderr.string).to match(/Error: unknown argument/)
     end
   end
 
   context 'when not an EC2 instance' do
-    include_context 'Not an EC2 Instance'
+    include_context 'Not an EC2 Instance', VScripts::Commands::Identify
     it 'returns error with message' do
-      expect{subject.run(['identify'])}.to raise_error(SystemExit)
+      stub_cli_with('identify')
+      expect{subject}.to raise_error(SystemExit)
       expect($stderr.string)
         .to match('FATAL: NOT an EC2 instance or could not connect to Metadata')
     end
   end
 
   context 'when EC2 instance' do
-    include_context 'EC2 Instance without tags'
+    include_context 'EC2 Instance without tags', VScripts::Commands::Identify
 
     context 'without tags' do
       it 'writes default hostname' do
-        allow_any_instance_of(VScripts::Commands::Identify).to receive(:tag)
-        subject.run(['identify'])
+        stub_cli_with('identify')
+        allow_any_instance_of(identify).to receive(:tag)
+        subject
         expect(IO.read(hostname_file)).to eq('1')
         expect($stdout.string).to match('Done.')
       end
@@ -49,34 +61,38 @@ describe 'Command: Identify' do
 
     context 'and when \'--ec2-tag-theme\'' do
       it 'returns the themed host' do
-        allow_any_instance_of(VScripts::Commands::Identify).to receive(:tag)
+        stub_cli_with('identify --ec2-tag-theme=Test-#')
+        allow_any_instance_of(identify).to receive(:tag)
           .and_return('TestValue')
-        subject.run(['identify', '--ec2-tag-theme=Test-#'])
+        subject
         expect(IO.read(hostname_file)).to eq('TestValue-1')
       end
     end
 
     context 'and when \'--host\'' do
       it 'returns the new host' do
-        subject.run(['identify', '--host=test-host'])
+        stub_cli_with('identify --host=test-host')
+        subject
         expect(IO.read(hostname_file)).to eq('test-host')
       end
     end
 
     context 'and when \'--domain\'' do
       it 'returns the new domain' do
-        subject.run(['identify', '--domain=example.tld'])
+        stub_cli_with('identify --domain=example.tld')
+        subject
         expect(IO.read(hosts_file)).to match('example.tld')
       end
     end
 
     context 'and when similar found' do
       it 'returns the incremented host' do
-        allow_any_instance_of(VScripts::Commands::Identify).to receive(:tag)
+        stub_cli_with('identify --ec2-tag-theme=Test-#')
+        allow_any_instance_of(identify).to receive(:tag)
           .and_return('TestName')
-        allow_any_instance_of(VScripts::Commands::Identify).to receive(:domain)
+        allow_any_instance_of(identify).to receive(:domain)
           .and_return('TestDomain.tld')
-        subject.run(['identify', '--ec2-tag-theme=Test-#'])
+        subject
         expect(IO.read(hostname_file)).to eq('TestName-2')
         expect(IO.read(hosts_file)).to match('TestName-2.TestDomain.tld')
       end

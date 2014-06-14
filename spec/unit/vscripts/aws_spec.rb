@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'aws_spec_helper'
 require 'vscripts/aws'
 
 describe VScripts::AWS do

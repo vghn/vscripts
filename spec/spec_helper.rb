@@ -45,6 +45,14 @@ RSpec.configure {|config|
   }
 }
 
+shared_context 'Temporary' do
+  let(:temp_dir) { TEMP_DIR }
+  let(:test_dir) { "#{TEMP_DIR}/test-dir" }
+  let(:test_file) { "#{TEMP_DIR}/test-file" }
+  let(:test_missing_file) { "#{test_dir}/test-file" }
+  let(:test_cont) { 'VScripts Test Content.' }
+end
+
 shared_context 'Suppressed output' do
   before(:each) do
     $stdout = StringIO.new
@@ -57,24 +65,91 @@ shared_context 'Suppressed output' do
   end
 end
 
-shared_context 'Temporary' do
-  let(:temp_dir) { TEMP_DIR }
-  let(:test_dir) { "#{TEMP_DIR}/test-dir" }
-  let(:test_file) { "#{TEMP_DIR}/test-file" }
-  let(:test_missing_file) { "#{test_dir}/test-file" }
-  let(:test_cont) { 'VScripts Test Content.' }
+def stub_cli_with(args)
+  allow(VScripts).to receive(:cli)
+    .and_return(VScripts::CommandLine.new(args.split))
 end
 
-shared_context 'System files' do
-  include_context 'Temporary'
+shared_context 'VScripts' do
+  let(:cmd) { VScripts::Commands.list.first.to_s.downcase }
+end
 
-  let(:hostname_file) { "#{TEMP_DIR}/test-hostname" }
-  let(:hosts_file) { "#{TEMP_DIR}/test-hosts" }
+shared_context 'Not an EC2 Instance' do
+  before(:each) do
+   allow(Net::HTTP).to receive(:get_response).and_return(false)
+  end
+end
+
+shared_context 'Amazon Web Services' do |subject|
+  # Preload AWS library
+  AWS.eager_autoload! AWS::Core     # Make sure to load Core first.
+  AWS.eager_autoload! AWS::EC2      # Load the EC2 class
+
+  ::AWS.config({
+    :access_key_id => '1234',
+    :secret_access_key => '5678',
+    :logger => nil,
+    :stub_requests => true
+  })
+
+  let(:region) {'us-east-1'}
+
+  let(:fake_instances) {::AWS::Core::Data.new([
+    {id: 'i-abcdefg1', status: :running, tags: tags},
+    {id: 'i-abcdefg2', status: :terminated, tags: tags},
+    {id: 'i-abcdefg3', status: :running, tags: {}},
+    {id: 'i-abcdefg4', status: :terminated, tags: {}},
+  ])}
+
+  let(:tags) {{
+    'Name' => 'TestName-1.TestDomain.tld',
+    'Domain' => 'TestDomainValue.tld',
+    'TestTagKey' => 'TestTagValue',
+  }}
 
   before(:each) do
-    allow_any_instance_of(VScripts::Util::LocalSystem)
-      .to receive(:hostname_path).and_return(hostname_file)
-    allow_any_instance_of(VScripts::Util::LocalSystem)
-      .to receive(:hosts_path).and_return(hosts_file)
+    allow_any_instance_of(subject)
+      .to receive_message_chain('ec2.instances.tagged')
+      .and_return(fake_instances[0..1])
+    allow_any_instance_of(subject)
+      .to receive_message_chain(:named_instances)
+      .and_return(fake_instances[0..1])
+  end
+end
+
+shared_context 'EC2 Instance' do |subject|
+  include_context 'Amazon Web Services', subject
+
+  before(:each) do
+    allow(Net::HTTP).to receive(:get_response).and_return(true)
+    allow(subject).to receive_message_chain('open.read')
+      .and_return('Remote server response')
+    allow_any_instance_of(subject).to receive(:zone)
+    allow_any_instance_of(subject).to receive(:region)
+      .and_return('us-east-1')
+    allow_any_instance_of(subject).to receive(:instance_id)
+      .and_return(fake_instances[1].id)
+    allow_any_instance_of(subject)
+      .to receive_message_chain('ec2.tags.create')
+  end
+end
+
+shared_context 'EC2 Instance without tags' do |subject|
+  include_context 'EC2 Instance', subject
+
+  before(:each) do
+    allow_any_instance_of(subject)
+      .to receive_message_chain('instance.tags')
+      .and_return({})
+  end
+end
+
+shared_context 'EC2 Instance with tags' do |subject|
+  include_context 'EC2 Instance', subject
+
+  before(:each) do
+     allow_any_instance_of(subject)
+      .to receive_message_chain('instance.tags')
+      .and_return(tags)
   end
 end

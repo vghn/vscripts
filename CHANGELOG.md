@@ -1,3 +1,12 @@
+Version 0.1.5
+---
+  * Add configuration file ([Vlad - f928415](https://github.com/vghn/vscripts/commit/f928415a19c4f300566721fcffd14877497de6f1))
+  * Add testing for Ruby 2.0.0 ([Vlad - ba19d81](https://github.com/vghn/vscripts/commit/ba19d817194fe1395ce5d2b3884552004e5e07ef))
+  * Fix command line options ([Vlad - cc6e8ad](https://github.com/vghn/vscripts/commit/cc6e8ad6ee77218cfe4cb8ae80af57a291d36ddb))
+  * Fix test for Ruby 2.0 ([Vlad - 2d32474](https://github.com/vghn/vscripts/commit/2d32474afcd2f1122d0d9deebc4e5c0bae700ff5))
+  * Fix smells ([Vlad - 23283a9](https://github.com/vghn/vscripts/commit/23283a941d356e185364d83832d88b15919c2bf7))
+  * Minor code improvements ([Vlad - b9091e5](https://github.com/vghn/vscripts/commit/b9091e5fbd6a50679c214d4d7db9539965d727e6))
+
 Version 0.1.4
 ---
   * Switch back to previous branch on deployment ([Vlad - 244ac9a](https://github.com/vghn/vscripts/commit/244ac9a6d810abd63a625c88bc0a2efac19a9993))

@@ -11,6 +11,10 @@ describe VScripts::Commands::Tags2facts do
   end
 
   describe '#new' do
+    it 'returns extra arguments' do
+      expect(subject.arguments).to be_an Array
+    end
+
     it 'returns cli arguments' do
       expect(subject.cli).to be_a Hash
     end

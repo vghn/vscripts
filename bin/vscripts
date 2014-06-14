@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 
 require 'vscripts'
-VScripts.run(ARGV)
+VScripts.run

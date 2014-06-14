@@ -38,15 +38,24 @@ module VScripts
         ec2.tags.create(resource, key, value)
       end
 
+      # @return [Hash] a correct Hash object with all tags and keys
+      def all_tags_hash
+        hash = {}
+        all_tags.each do |key, value|
+          hash = hash.merge(Hash[key, value])
+        end
+        hash
+      end
+
       # Exclude tags
       # @param list [Array] the list of tag keys to be excluded
       # @return [Hash] the filtered tags
       def tags_without(list = [])
-        all_tags.each_with_object({}) do |tag, hash|
-          key, value = tag[0], tag[1]
-          hash[key] = value unless list.include? key
-          hash
+        hash = all_tags_hash
+        list.each do |key|
+          hash.delete(key)
         end
+        hash
       end
 
       # Looks for the value of the 'Name' tag for the given instance

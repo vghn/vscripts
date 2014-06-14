@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'aws_spec_helper'
 require 'vscripts/aws'
 
 describe VScripts::AWS::EC2 do
@@ -52,6 +51,15 @@ describe VScripts::AWS::EC2 do
         .and_return(tags)
       expect(subject.tag('Name'))
         .to eq('test')
+    end
+  end
+
+  describe '#all_tags_hash' do
+    it 'returns a Hash' do
+      allow(subject).to receive('all_tags')
+        .and_return(tags)
+      expect(subject.all_tags_hash).to be_an_instance_of Hash
+      expect(subject.all_tags_hash).to eq({"Name"=>"test"})
     end
   end
 
