@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'tempfile'
 require 'vscripts/util'
 
 describe VScripts::Util::LocalSystem do

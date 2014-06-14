@@ -2,8 +2,9 @@ require 'spec_helper'
 require 'vscripts/command_line'
 
 describe VScripts::CommandLine do
-  subject { VScripts::CommandLine.new([cmd, 'extra_args']) }
   let(:cmd) { VScripts::Commands.list.first.to_s }
+
+  subject { VScripts::CommandLine.new([cmd, 'extra_args']) }
 
   describe '#new' do
     it 'returns the command line arguments' do
@@ -26,8 +27,8 @@ describe VScripts::CommandLine do
 
   describe '#extra' do
     it 'returns the rest of the arguments as an Array' do
-      expect(subject.arguments).to be_an_instance_of Array
-      expect(subject.arguments).to eql ['extra_args']
+      expect(subject.command_options).to be_an_instance_of Array
+      expect(subject.command_options).to eql ['extra_args']
     end
   end
 

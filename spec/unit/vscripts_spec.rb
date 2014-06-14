@@ -3,41 +3,33 @@ require 'vscripts'
 
 describe VScripts do
   include_context 'Suppressed output'
-
-  let(:cli) { VScripts::CommandLine }
-
-  before(:all) do
-    @cmd = VScripts::Commands.list.first.to_s.downcase
-  end
+  include_context 'VScripts'
 
   describe '.run' do
     context 'when no command line arguments' do
       it 'returns help' do
-        allow_any_instance_of(cli).to receive(:arguments).and_return([])
-        expect{subject.run}.to raise_error(SystemExit)
+        expect{stub_cli_with('')}.to raise_error(SystemExit)
         expect($stdout.string).to match(/Available commands/)
       end
     end
 
     context 'when \'-h\'' do
       it 'returns help' do
-        allow_any_instance_of(cli).to receive(:arguments).and_return(['-h'])
-        expect{subject.run}.to raise_error(SystemExit)
+        expect{stub_cli_with('-h')}.to raise_error(SystemExit)
         expect($stdout.string).to match(/Available commands/)
       end
     end
 
     context 'when \'-v\'' do
       it 'returns version' do
-        allow_any_instance_of(cli).to receive(:arguments).and_return(['-v'])
-        expect{subject.run}.to raise_error(SystemExit)
+        expect{stub_cli_with('-v')}.to raise_error(SystemExit)
         expect($stdout.string).to match(/VScripts.*(c)/)
       end
     end
 
     context 'when \'command\' and \'-h\'' do
       it 'returns command help' do
-        allow(VScripts).to receive(:cli).and_return(cli.new(["#{@cmd}", '-h']))
+        stub_cli_with("#{cmd} -h")
         expect{subject.run}.to raise_error(SystemExit)
         expect($stdout.string).to match(/USAGE:/)
         expect($stdout.string).to match(/OPTIONS:/)

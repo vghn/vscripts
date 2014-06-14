@@ -1,11 +1,11 @@
-require 'integration/spec_helper'
-require 'vscripts/config'
+require 'spec_helper'
+require 'vscripts'
 
 describe 'Configuration' do
-  subject { VScripts::Config.new }
-
   let(:dotcfg) { "#{File.expand_path('~')}/.vscripts.yml" }
   let(:syscfg) { '/etc/vscripts/config.yml' }
+
+  subject { VScripts::Config.new }
 
   before(:each) do
     allow(File).to receive(:read).with(dotcfg)
