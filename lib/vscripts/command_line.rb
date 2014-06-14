@@ -65,8 +65,7 @@ EOS
       command_class = command.capitalize.to_sym
       abort "Error: unknown subcommand '#{command}'\nTry --help." \
         unless Commands.list.include?(command_class)
-      @command = command_class
-      @command_options = args
+      @command, @command_options = [command_class, args]
     end
   end # class CommandLine
 end # module VScripts

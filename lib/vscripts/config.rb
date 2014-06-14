@@ -15,19 +15,16 @@ module VScripts
 
     # Loads class
     # @param cfg_file [String] the path to the configuration file
-    def initialize(cfg_file = nil)
-      @cfg_file ||= cfg_file
-    end
-
     # @return [Hash] the configuration options
-    def get
-      @get ||= GLOBAL_DEFAULTS.merge(options)
+    def initialize(config_file = nil)
+      @file = config_file
+      @get  = GLOBAL_DEFAULTS.merge(options)
     end
 
     # Parses the configuration files in order
     # @return [Hash] the first configuration hash found
     def options
-      parse(@cfg_file) ||
+      parse(@file) ||
         parse(DOT_FILE) ||
         parse(SYSTEM_CONFIG_FILE) ||
         {}

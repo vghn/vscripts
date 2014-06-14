@@ -8,13 +8,13 @@ describe VScripts::Config do
   describe '#new' do
     context 'when config file not passed' do
       it 'returns nil' do
-        expect(subject.instance_variable_get(:@cfg_file)).to be_nil
+        expect(subject.instance_variable_get(:@file)).to be_nil
       end
     end
     context 'when config file passed' do
       it 'returns the path' do
         subject = VScripts::Config.new('/path/to/file')
-        expect(subject.instance_variable_get(:@cfg_file)).to eq('/path/to/file')
+        expect(subject.instance_variable_get(:@file)).to eq('/path/to/file')
       end
     end
   end

@@ -26,14 +26,21 @@ describe VScripts do
         expect($stdout.string).to match(/VScripts.*(c)/)
       end
     end
+  end
 
-    context 'when \'command\' and \'-h\'' do
-      it 'returns command help' do
-        stub_cli_with("#{cmd} -h")
-        expect{subject.run}.to raise_error(SystemExit)
-        expect($stdout.string).to match(/USAGE:/)
-        expect($stdout.string).to match(/OPTIONS:/)
-      end
+  describe '.cli' do
+    it 'returns subcommand and arguments' do
+      allow(VScripts::CommandLine).to receive(:new)
+        .and_return(VScripts::CommandLine.new("#{cmd} -h".split))
+      expect{subject.run}.to raise_error(SystemExit)
+      expect($stdout.string).to match(/USAGE:/)
+      expect($stdout.string).to match(/OPTIONS:/)
+    end
+  end
+
+  describe '.config' do
+    it 'returns a hash' do
+      expect(subject.config.get).to be_a Hash
     end
   end
 end
