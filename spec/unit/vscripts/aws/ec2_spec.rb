@@ -54,6 +54,15 @@ describe VScripts::AWS::EC2 do
     end
   end
 
+  describe '#all_tags_hash' do
+    it 'returns a Hash' do
+      allow(subject).to receive('all_tags')
+        .and_return(tags)
+      expect(subject.all_tags_hash).to be_an_instance_of Hash
+      expect(subject.all_tags_hash).to eq({"Name"=>"test"})
+    end
+  end
+
   describe '#tags_without' do
     it 'returns a filtered Hash' do
       allow(subject).to receive('all_tags')
