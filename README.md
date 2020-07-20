@@ -1,4 +1,6 @@
 # VScripts
+
+[![Join the chat at https://gitter.im/vghn/vscripts](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/vghn/vscripts?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
   [![Build Status](https://travis-ci.org/vghn/vscripts.svg?branch=master)](https://travis-ci.org/vghn/vscripts)
   [![Code Climate](https://codeclimate.com/github/vghn/vscripts.png)](https://codeclimate.com/github/vghn/vscripts)
   [![Gem Version](https://badge.fury.io/rb/vscripts.svg)](http://badge.fury.io/rb/vscripts)
